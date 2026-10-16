@@ -12,6 +12,10 @@ workflows/
 ARCHITECTURE.md
 mcp_config.json
 
+# Vercel & Build
+.vercel/
+node_modules/
+
 # OS / Editor files
 .DS_Store
 Thumbs.db

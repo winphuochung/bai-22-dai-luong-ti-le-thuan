@@ -1,0 +1,15 @@
+.agent/
+.agents/
+.gemini/
+.shared/
+agents/
+rules/
+scripts/
+skills/
+tasks/
+workflows/
+ARCHITECTURE.md
+mcp_config.json
+*.docx
+Screenshot*.png
+Code.gs
