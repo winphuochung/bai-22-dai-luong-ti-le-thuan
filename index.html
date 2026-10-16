@@ -1,0 +1,3136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bài 22: Đại Lượng Tỉ Lệ Thuận - Toán 7 (Kết Nối Tri Thức)</title>
+  <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-dark: #3730a3;
+      --secondary: #0ea5e9;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      --warning-bg: #fffbeb;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --radius: 18px;
+      --shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #eef2ff 0%, #f0f9ff 50%, #fef3c7 100%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* Sticky Top Header & Progress Bar */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #e2e8f0;
+      padding: 10px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .top-bar-inner {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: nowrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .school-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      box-shadow: 0 3px 10px rgba(79, 70, 229, 0.22);
+      background: white;
+      flex-shrink: 0;
+    }
+
+    .badge-lesson {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+      font-weight: 900;
+      padding: 5px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+      box-shadow: 0 3px 8px rgba(79, 70, 229, 0.25);
+      white-space: nowrap;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      white-space: nowrap;
+    }
+
+    .progress-wrapper {
+      flex: 1;
+      min-width: 260px;
+      max-width: 560px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 5px;
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4f46e5, #0ea5e9, #10b981);
+      border-radius: 999px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    /* Navigation Tabs (7 Nhiệm vụ) */
+    .nav-tabs {
+      width: 100%;
+      max-width: 100%;
+      margin: 16px auto 0;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .nav-tab {
+      background: white;
+      border: 2px solid #cbd5e1;
+      padding: 11px 12px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 1 1 0;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .nav-tab:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.28);
+    }
+
+    .nav-tab .done-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .nav-tab.completed .done-dot {
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 100%;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    .section-page {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .section-page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      border: 2px solid rgba(79, 70, 229, 0.08);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+
+    /* Knowledge Highlight Boxes */
+    .golden-box {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border-left: 6px solid var(--accent);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin: 18px 0;
+      position: relative;
+    }
+
+    .golden-title {
+      font-weight: 900;
+      color: #b45309;
+      font-size: 19px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .formula-pill {
+      display: inline-block;
+      background: white;
+      border: 2px solid #f59e0b;
+      color: #b45309;
+      font-weight: 900;
+      font-size: 24px;
+      padding: 8px 24px;
+      border-radius: 12px;
+      margin: 10px 0;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.15);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 16px 0;
+    }
+
+    .info-card {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px;
+      transition: transform 0.2s;
+    }
+
+    .info-card:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+    }
+
+    /* Visual Banner / SVG Illustrations */
+    .visual-box {
+      background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+      border: 2px dashed #7dd3fc;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 18px 0;
+      text-align: center;
+    }
+
+    .visual-caption {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0369a1;
+      margin-top: 10px;
+    }
+
+    /* Tables */
+    .math-table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    .math-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid #cbd5e1;
+    }
+
+    .math-table th, .math-table td {
+      border: 2px solid #cbd5e1;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .math-table th {
+      background: #eef2ff;
+      color: var(--primary-dark);
+      font-weight: 900;
+      width: 120px;
+    }
+
+    .table-input {
+      width: 86px;
+      padding: 8px 10px;
+      font-size: 18px;
+      font-weight: 800;
+      font-family: inherit;
+      text-align: center;
+      border: 2px solid #94a3b8;
+      border-radius: 10px;
+      background: #f8fafc;
+      color: var(--primary-dark);
+      transition: all 0.2s;
+    }
+
+    .table-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+
+    .table-input.correct {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: #065f46;
+    }
+
+    .table-input.wrong {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+      color: #991b1b;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 2px solid #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 15px;
+      border-radius: 10px;
+    }
+
+    /* MCQ Options */
+    .mcq-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .mcq-option {
+      background: #f8fafc;
+      border: 2px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mcq-option:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .mcq-option.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .mcq-option.correct {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: #065f46;
+    }
+
+    .mcq-option.wrong {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+      color: #991b1b;
+    }
+
+    .opt-letter {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: white;
+      border: 2px solid #cbd5e1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* Feedback Box */
+    .feedback-box {
+      display: none;
+      margin-top: 16px;
+      padding: 16px 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .feedback-box.show {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .feedback-box.success {
+      background: var(--success-bg);
+      border: 2px solid #34d399;
+      color: #065f46;
+    }
+
+    .feedback-box.hint {
+      background: var(--warning-bg);
+      border: 2px solid #fbbf24;
+      color: #92400e;
+    }
+
+    .feedback-box.error {
+      background: var(--danger-bg);
+      border: 2px solid #f87171;
+      color: #991b1b;
+    }
+
+    /* Matching Activity */
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .match-item {
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 2px solid #cbd5e1;
+      background: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .match-item.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: scale(1.02);
+    }
+
+    .match-item.matched {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: #065f46;
+      cursor: default;
+    }
+
+    /* Interactive Car Slider */
+    .slider-box {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      border: 2px solid #bae6fd;
+      margin-top: 12px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+      height: 8px;
+      cursor: pointer;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 2px dashed #cbd5e1;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: white;
+      max-width: 600px;
+      width: 100%;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: fadeIn 0.25s ease;
+    }
+
+    /* Flask visual */
+    .flasks-row {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
+
+    .flask-card {
+      background: white;
+      border: 2px solid #bae6fd;
+      border-radius: 16px;
+      padding: 16px;
+      width: 180px;
+      text-align: center;
+    }
+
+    /* 50-Question Exam / Game Challenge Styles */
+    .score-breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .score-stat-box {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+    }
+
+    .score-stat-box.highlight-total {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      border-color: #4338ca;
+      color: white;
+    }
+
+    .score-stat-box.highlight-rank {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+
+    .score-stat-label {
+      font-size: 12.5px;
+      font-weight: 800;
+      opacity: 0.88;
+      margin-bottom: 4px;
+    }
+
+    .score-stat-val {
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .part-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0;
+      padding: 10px;
+      background: #f1f5f9;
+      border-radius: 14px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .part-filter-btn {
+      flex: 1 1 auto;
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: white;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .part-filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .part-filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    }
+
+    .part-section-title {
+      background: linear-gradient(90deg, #eef2ff, #f8fafc);
+      border-left: 6px solid var(--primary);
+      padding: 12px 18px;
+      border-radius: 12px;
+      margin: 22px 0 14px;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .q-card {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+
+    .q-card.graded-correct {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .q-card.graded-wrong {
+      border-color: var(--danger);
+      background: #fff5f5;
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .q-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+
+    .q-point-badge {
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
+    .essay-textarea {
+      width: 100%;
+      min-height: 78px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      resize: vertical;
+      margin-top: 8px;
+    }
+
+    .essay-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .match-select {
+      padding: 9px 14px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      border: 2px solid #94a3b8;
+      border-radius: 10px;
+      background: white;
+      color: var(--primary-dark);
+      cursor: pointer;
+      min-width: 240px;
+    }
+
+    /* Login Screen */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: white;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 20px 45px rgba(79, 70, 229, 0.14), 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 2px solid rgba(79, 70, 229, 0.12);
+      text-align: center;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .login-logo {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary);
+      box-shadow: 0 6px 18px rgba(79, 70, 229, 0.25);
+      margin-bottom: 12px;
+      background: white;
+    }
+
+    .login-school {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .login-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 15px;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      background: #f8fafc;
+      border: 2px solid #cbd5e1;
+      border-radius: 14px;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+    }
+
+    .login-error {
+      display: none;
+      background: var(--danger-bg);
+      border: 2px solid #f87171;
+      color: #991b1b;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .student-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      border: 1.5px solid #c7d2fe;
+      color: var(--primary-dark);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .btn-danger {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 2px solid #fecaca;
+    }
+
+    .btn-danger:hover {
+      background: #fee2e2;
+      border-color: #f87171;
+    }
+
+    @media (max-width: 860px) {
+      .top-bar-inner { flex-wrap: wrap; }
+      .nav-tabs { flex-wrap: wrap; }
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      .card { padding: 18px; }
+      h1 { font-size: 22px; }
+      .match-grid { grid-template-columns: 1fr; }
+      .login-card { padding: 26px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== MÀN HÌNH ĐĂNG NHẬP HỌC SINH ==================== -->
+  <section class="login-screen" id="login-screen">
+    <div class="login-card">
+      <img src="logo.jpg" alt="Logo Trường THCS và THPT Long Bình" class="login-logo" />
+      <div class="login-school">Trường THCS và THPT Long Bình – An Phú, An Giang</div>
+      <h1 class="login-title">BÀI 22: ĐẠI LƯỢNG TỈ LỆ THUẬN</h1>
+      <p class="login-subtitle">Môn Toán 7 – Bộ sách Kết Nối Tri Thức Với Cuộc Sống</p>
+
+      <form onsubmit="loginStudent(event)">
+        <div class="form-group">
+          <label class="form-label" for="student-name">👨‍🎓 Họ và tên học sinh:</label>
+          <input
+            type="text"
+            id="student-name"
+            class="form-input"
+            placeholder="Ví dụ: Nguyễn Văn An"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="student-class">🏫 Lớp:</label>
+          <input
+            type="text"
+            id="student-class"
+            class="form-input"
+            placeholder="Ví dụ: 7A1"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="login-error" id="login-error">
+          ⚠️ Vui lòng nhập đầy đủ <strong>Họ và tên học sinh</strong> và <strong>Lớp</strong> để bắt đầu bài học!
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 18px; padding: 14px;">
+          🚀 Đăng Nhập & Bắt Đầu Học
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== GIAO DIỆN CHÍNH CỦA BÀI HỌC ==================== -->
+  <div id="app-wrapper" style="display: none;">
+
+  <!-- STICKY HEADER & PROGRESS BAR -->
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <div class="brand">
+        <img src="logo.jpg" alt="Logo Trường THCS và THPT Long Bình" class="school-logo" />
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;">
+            <span class="badge-lesson">BÀI 22</span>
+            <span class="brand-title">ĐẠI LƯỢNG TỈ LỆ THUẬN – TOÁN 7</span>
+          </div>
+          <div style="font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-top: 2px;">
+            Trường THCS và THPT Long Bình – An Phú, An Giang
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-wrapper">
+        <div class="progress-label">
+          <span>📊 Tiến trình bài học</span>
+          <span id="progress-text">0% (0/7 nhiệm vụ)</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="top-actions" style="align-items: center;">
+        <div class="student-pill" id="header-student-info" title="Thông tin học sinh đang học">
+          👨‍🎓 Học sinh
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="resetLesson()" title="Làm lại bài học từ đầu">🔄 Học Lại</button>
+        <button class="btn btn-primary btn-sm" onclick="toggleHelpModal(true)">❓ Trợ Giúp</button>
+        <button class="btn btn-danger btn-sm" onclick="logoutStudent()" title="Đăng xuất tài khoản học sinh">🚪 Đăng Xuất</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS (7 NHIỆM VỤ) -->
+  <nav class="nav-tabs" aria-label="7 nhiệm vụ của bài học">
+    <button class="nav-tab active" id="tab-0" onclick="goToSection(0)" title="Nhiệm vụ 1: Khởi Động">
+      <span class="done-dot"></span> 1. 🚀 Khởi Động
+    </button>
+    <button class="nav-tab" id="tab-1" onclick="goToSection(1)" title="Nhiệm vụ 2: Kiến Thức Trọng Tâm">
+      <span class="done-dot"></span> 2. 💡 Kiến Thức
+    </button>
+    <button class="nav-tab" id="tab-2" onclick="goToSection(2)" title="Nhiệm vụ 3: Hoạt Động 1 - Điền Bảng (Bài 6.17)">
+      <span class="done-dot"></span> 3. 🧩 Hoạt Động 1
+    </button>
+    <button class="nav-tab" id="tab-3" onclick="goToSection(3)" title="Nhiệm vụ 4: Hoạt Động 2 - Phòng Thí Nghiệm (Bài 6.21)">
+      <span class="done-dot"></span> 4. 🧪 Hoạt Động 2
+    </button>
+    <button class="nav-tab" id="tab-4" onclick="goToSection(4)" title="Nhiệm vụ 5: Hoạt Động 3 - Suy Luận Bắc Cầu (Bài 6.19)">
+      <span class="done-dot"></span> 5. 🔗 Hoạt Động 3
+    </button>
+    <button class="nav-tab" id="tab-5" onclick="goToSection(5)" title="Nhiệm vụ 6: Hoạt Động 4 - Ghép Cặp Thực Tế SGK">
+      <span class="done-dot"></span> 6. 🧲 Hoạt Động 4
+    </button>
+    <button class="nav-tab" id="tab-6" onclick="goToSection(6)" title="Nhiệm vụ 7: Game Challenge & Tổng Kết Bài Học">
+      <span class="done-dot"></span> 7. 🏆 Tổng Kết
+    </button>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="container">
+
+    <!-- ==================== SECTION 0: KHỞI ĐỘNG ==================== -->
+    <section class="section-page active" id="section-0">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🚀</div>
+          <div>
+            <h1>1. Khởi Động: "Đoán Xem Điều Gì Sẽ Xảy Ra?"</h1>
+            <p style="color: var(--text-muted); font-weight: 600;">Cùng khám phá mối liên hệ thú vị giữa thời gian và quãng đường (SGK Toán 7 - Trang 11)</p>
+          </div>
+        </div>
+
+        <p>Chào mừng các bạn học sinh lớp 7 đến với bài học tương tác về <strong>Đại lượng tỉ lệ thuận</strong>! Trước khi bắt đầu, chúng mình cùng quan sát chiếc ô tô đang di chuyển dưới đây nhé.</p>
+
+        <!-- Interactive SVG Simulation -->
+        <div class="visual-box">
+          <svg viewBox="0 0 700 150" width="100%" style="max-width: 1000px; height: auto;">
+            <!-- Sky & Road -->
+            <rect x="0" y="0" width="700" height="110" rx="12" fill="#e0f2fe"/>
+            <rect x="0" y="105" width="700" height="45" rx="6" fill="#334155"/>
+            <line x1="20" y1="128" x2="680" y2="128" stroke="#facc15" stroke-width="4" stroke-dasharray="18 14"/>
+            <!-- Milestones -->
+            <g font-size="13" font-weight="800" fill="#0f172a">
+              <text x="40" y="98">0 km</text>
+              <text x="210" y="98">60 km (1h)</text>
+              <text x="390" y="98">120 km (2h)</text>
+              <text x="580" y="98">180 km (3h)</text>
+            </g>
+            <!-- Moving Car Group -->
+            <g id="car-svg-group" transform="translate(30, 62)" style="transition: transform 0.35s ease;">
+              <rect x="0" y="15" width="84" height="26" rx="8" fill="#4f46e5"/>
+              <path d="M16 15 L28 0 L62 0 L72 15 Z" fill="#6366f1"/>
+              <rect x="30" y="3" width="28" height="11" rx="3" fill="#bae6fd"/>
+              <circle cx="20" cy="42" r="10" fill="#0f172a"/>
+              <circle cx="20" cy="42" r="4" fill="#cbd5e1"/>
+              <circle cx="64" cy="42" r="10" fill="#0f172a"/>
+              <circle cx="64" cy="42" r="4" fill="#cbd5e1"/>
+              <rect x="78" y="21" width="6" height="8" rx="2" fill="#fde047"/>
+            </g>
+          </svg>
+
+          <div class="slider-box">
+            <label for="time-slider" style="font-weight: 800; color: var(--primary-dark); display: block; margin-bottom: 6px;">
+              🕹️ Kéo thanh trượt để thay đổi thời gian ô tô chạy (vận tốc không đổi \( v = 60\text{ km/h} \)):
+            </label>
+            <input type="range" id="time-slider" min="0" max="3" step="0.5" value="1" oninput="updateCarSimulation(this.value)">
+            <div style="display: flex; justify-content: space-around; margin-top: 10px; font-weight: 800; font-size: 18px;">
+              <span>⏱️ Thời gian \( t \): <strong id="sim-time" style="color: var(--primary);">1 giờ</strong></span>
+              <span>🛣️ Quãng đường \( s \): <strong id="sim-dist" style="color: var(--success);">60 km</strong></span>
+            </div>
+          </div>
+          <div class="visual-caption">[HÌNH MINH HỌA TƯƠNG TÁC: Xe ô tô chạy với vận tốc không đổi 60 km/h trên đường thẳng]</div>
+        </div>
+
+        <!-- Question 1: Warm-up MCQ -->
+        <div class="info-card" style="margin-top: 20px;">
+          <h3>❓ Câu đố Khởi Động 1:</h3>
+          <p>Một chiếc xe ô tô chạy với vận tốc không đổi là <strong>60 km/h</strong>. Nếu thời gian di chuyển \( t \) <strong>tăng lên bao nhiêu lần</strong> thì quãng đường \( s \) xe đi được sẽ thay đổi như thế nào?</p>
+
+          <div class="mcq-list" id="warmup-mcq">
+            <button class="mcq-option" onclick="checkWarmupMCQ(this, false)">
+              <span class="opt-letter">A</span> Quãng đường giảm đi bấy nhiêu lần.
+            </button>
+            <button class="mcq-option" onclick="checkWarmupMCQ(this, true)">
+              <span class="opt-letter">B</span> Quãng đường tăng lên bấy nhiêu lần.
+            </button>
+            <button class="mcq-option" onclick="checkWarmupMCQ(this, false)">
+              <span class="opt-letter">C</span> Quãng đường không thay đổi.
+            </button>
+            <button class="mcq-option" onclick="checkWarmupMCQ(this, false)">
+              <span class="opt-letter">D</span> Không thể xác định được.
+            </button>
+          </div>
+          <div class="feedback-box" id="feedback-warmup-1"></div>
+        </div>
+
+        <!-- Question 2: HĐ1 & HĐ2 SGK -->
+        <div class="info-card" style="margin-top: 20px;">
+          <h3>📝 Hoạt động Khởi Động 2 (HĐ1 & HĐ2 - SGK trang 11):</h3>
+          <p>Gọi \( s\text{ (km)} \) là quãng đường ô tô đi được trong thời gian \( t\text{ (h)} \) với vận tốc \( 60\text{ km/h} \). Em hãy thay mỗi dấu "?" trong bảng sau bằng số thích hợp:</p>
+
+          <div class="math-table-wrap">
+            <table class="math-table">
+              <tr>
+                <th>\( t\text{ (h)} \)</th>
+                <td>1</td>
+                <td>1,5</td>
+                <td>2</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <th>\( s\text{ (km)} \)</th>
+                <td><input type="text" class="table-input" id="hd1-1" placeholder="?"></td>
+                <td><input type="text" class="table-input" id="hd1-2" placeholder="?"></td>
+                <td><input type="text" class="table-input" id="hd1-3" placeholder="?"></td>
+                <td><input type="text" class="table-input" id="hd1-4" placeholder="?"></td>
+              </tr>
+            </table>
+          </div>
+
+          <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <span style="font-weight: 800;">Công thức tính quãng đường \( s \) theo thời gian \( t \) là: \( s = \)</span>
+            <input type="text" class="table-input" id="hd2-coef" placeholder="?" style="width: 75px;">
+            <span style="font-weight: 900; font-size: 20px;">\(\cdot \, t\)</span>
+            <button class="btn btn-primary btn-sm" onclick="checkHD12()">✔️ Kiểm tra HĐ1 & HĐ2</button>
+          </div>
+
+          <div class="feedback-box" id="feedback-warmup-2"></div>
+        </div>
+
+        <!-- Tình huống mở đầu SGK: Bột sắn dây -->
+        <div class="golden-box" style="margin-top: 22px;">
+          <div class="golden-title">🌿 Bài toán mở đầu SGK (Trang 11): Bột sắn dây của ông An</div>
+          <p>Bột sắn dây được làm từ củ sắn dây, là một loại thực phẩm có nhiều tác dụng tốt với sức khoẻ. Ông An nhận thấy cứ <strong>4,5 kg củ sắn dây tươi</strong> thì thu được khoảng <strong>1 kg bột</strong>. Vậy với <strong>3 tạ (300 kg)</strong> củ sắn dây tươi, ông An sẽ thu được khoảng bao nhiêu kilôgam bột sắn dây? Hãy cùng khám phá kiến thức ở phần tiếp theo để giải đáp nhé!</p>
+        </div>
+
+        <div class="bottom-nav">
+          <span></span>
+          <button class="btn btn-primary" onclick="goToSection(1)">Tiếp tục: Khám Phá Kiến Thức ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 1: KIẾN THỨC TRỌNG TÂM ==================== -->
+    <section class="section-page" id="section-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">💡</div>
+          <div>
+            <h1>2. Khám Phá Kiến Thức: Đại Lượng Tỉ Lệ Thuận</h1>
+            <p style="color: var(--text-muted); font-weight: 600;">Nắm vững định nghĩa, hệ số tỉ lệ và tính chất vàng chỉ trong 5 phút!</p>
+          </div>
+        </div>
+
+        <!-- 2.1 Định nghĩa & Công thức -->
+        <div class="golden-box">
+          <div class="golden-title">⭐ 2.1. Định Nghĩa & Công Thức Vàng (SGK Trang 11)</div>
+          <p>Nếu đại lượng \( y \) liên hệ với đại lượng \( x \) theo công thức:</p>
+          <div style="text-align: center;">
+            <span class="formula-pill">\( y = a \cdot x \) &nbsp; (\( a \) là hằng số khác 0)</span>
+          </div>
+          <p>thì ta nói <strong>\( y \) tỉ lệ thuận với \( x \)</strong> theo <strong>hệ số tỉ lệ \( a \)</strong>.</p>
+        </div>
+
+        <!-- Sơ đồ trực quan mối liên hệ hai chiều -->
+        <div class="visual-box">
+          <svg viewBox="0 0 680 155" width="100%" style="max-width: 960px; height: auto;">
+            <defs>
+              <marker id="arrow-right" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#4f46e5" />
+              </marker>
+              <marker id="arrow-left" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#0ea5e9" />
+              </marker>
+            </defs>
+            <!-- Left Box -->
+            <rect x="30" y="32" width="180" height="90" rx="16" fill="#4f46e5" />
+            <text x="120" y="72" text-anchor="middle" fill="white" font-size="22" font-weight="900">Đại lượng y</text>
+            <text x="120" y="100" text-anchor="middle" fill="#e0e7ff" font-size="15" font-weight="700">Tăng / Giảm k lần</text>
+
+            <!-- Right Box -->
+            <rect x="470" y="32" width="180" height="90" rx="16" fill="#0ea5e9" />
+            <text x="560" y="72" text-anchor="middle" fill="white" font-size="22" font-weight="900">Đại lượng x</text>
+            <text x="560" y="100" text-anchor="middle" fill="#e0f2fe" font-size="15" font-weight="700">Tăng / Giảm k lần</text>
+
+            <!-- Top Arrow: y tỉ lệ thuận với x -->
+            <path d="M 225 55 Q 340 15 455 55" fill="none" stroke="#4f46e5" stroke-width="4" marker-end="url(#arrow-right)" />
+            <text x="340" y="28" text-anchor="middle" fill="#3730a3" font-size="16" font-weight="900">y = a · x (Hệ số tỉ lệ: a)</text>
+
+            <!-- Bottom Arrow: x tỉ lệ thuận với y -->
+            <path d="M 455 100 Q 340 140 225 100" fill="none" stroke="#0ea5e9" stroke-width="4" marker-end="url(#arrow-left)" />
+            <text x="340" y="144" text-anchor="middle" fill="#0369a1" font-size="16" font-weight="900">x = (1/a) · y (Hệ số tỉ lệ: 1/a)</text>
+          </svg>
+          <div class="visual-caption">[SƠ ĐỒ TƯ DUY: Quan hệ hai chiều giữa hai đại lượng tỉ lệ thuận x và y]</div>
+        </div>
+
+        <div class="grid-2">
+          <div class="info-card">
+            <h3>🔄 Chú ý quan trọng (Hệ số tỉ lệ đảo)</h3>
+            <p>Nếu \( y \) tỉ lệ thuận với \( x \) theo hệ số tỉ lệ \( a \) thì <strong>\( x \) tỉ lệ thuận với \( y \)</strong> theo hệ số tỉ lệ là:</p>
+            <p style="text-align: center; margin: 10px 0; font-size: 22px; font-weight: 900; color: var(--primary);">\( \dfrac{1}{a} \)</p>
+            <p><strong>Ví dụ 1 (SGK trang 12):</strong> Cho \( y = -2x \):</p>
+            <ul style="padding-left: 20px; margin-top: 6px;">
+              <li>\( y \) tỉ lệ thuận với \( x \) theo hệ số tỉ lệ \( a = -2 \).</li>
+              <li>\( x \) tỉ lệ thuận với \( y \) theo hệ số tỉ lệ \( \dfrac{1}{a} = -\dfrac{1}{2} \).</li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h3>📐 2.2. Cách tìm hệ số tỉ lệ \( a \) và Tính chất</h3>
+            <p>Khi biết một cặp giá trị tương ứng \( (x; y) \) khác 0, ta tìm ngay được hệ số tỉ lệ:</p>
+            <p style="text-align: center; margin: 10px 0; font-size: 22px; font-weight: 900; color: #059669;">\( a = \dfrac{y}{x} \)</p>
+            <p><strong>Tính chất (SGK trang 12):</strong></p>
+            <ul style="padding-left: 20px; margin-top: 6px;">
+              <li>Tỉ số hai giá trị tương ứng luôn không đổi: \( \dfrac{y_1}{x_1} = \dfrac{y_2}{x_2} = \dfrac{y_3}{x_3} = \dots = a \)</li>
+              <li>Tỉ số hai giá trị bất kì của đại lượng này bằng tỉ số hai giá trị tương ứng của đại lượng kia: \( \dfrac{y_1}{y_2} = \dfrac{x_1}{x_2} \)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Ví dụ tương tác nhanh: Ví dụ 2 SGK -->
+        <div class="info-card" style="margin-top: 20px; border-color: #a5b4fc; background: #f5f7ff;">
+          <h3>⚡ Ví Dụ Tương Tác Nhanh: Tìm hệ số tỉ lệ \( a \) và hoàn thành bảng!</h3>
+          <p>Cho biết \( y \) tỉ lệ thuận với \( x \). Quan sát bảng dưới đây, hãy tìm hệ số tỉ lệ \( a \) và điền các số còn thiếu vào ô trống:</p>
+
+          <div style="display: flex; align-items: center; gap: 12px; margin: 14px 0; flex-wrap: wrap;">
+            <span style="font-weight: 800; color: var(--primary-dark);">Bước 1 – Nhập hệ số tỉ lệ \( a = \dfrac{y}{x} = \)</span>
+            <input type="text" class="table-input" id="vd-a" placeholder="a = ?">
+            <span style="font-size: 15px; color: var(--text-muted);">(Gợi ý: quan sát cột \( x = 4, y = 8 \))</span>
+          </div>
+
+          <div class="math-table-wrap">
+            <table class="math-table">
+              <tr>
+                <th>\( x \)</th>
+                <td>2</td>
+                <td>4</td>
+                <td>5</td>
+                <td><input type="text" class="table-input" id="vd-x4" placeholder="?"></td>
+                <td>9</td>
+              </tr>
+              <tr>
+                <th>\( y \)</th>
+                <td><input type="text" class="table-input" id="vd-y1" placeholder="?"></td>
+                <td>8</td>
+                <td>10</td>
+                <td>18</td>
+                <td><input type="text" class="table-input" id="vd-y5" placeholder="?"></td>
+              </tr>
+            </table>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="checkQuickExample()">✔️ Kiểm tra Ví dụ</button>
+          <div class="feedback-box" id="feedback-vd"></div>
+        </div>
+
+        <div class="bottom-nav">
+          <button class="btn btn-secondary" onclick="goToSection(0)">⬅️ Quay lại: 1. Khởi Động</button>
+          <button class="btn btn-primary" onclick="goToSection(2)">Tiếp tục: 3. Hoạt Động 1 ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 2: NHIỆM VỤ 3 - HOẠT ĐỘNG 1 ==================== -->
+    <section class="section-page" id="section-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🧩</div>
+          <div>
+            <h1>3. Hoạt Động 1: Điền Số Vào Bảng & Viết Công Thức</h1>
+            <p style="color: var(--text-muted); font-weight: 600;">Bài tập 6.17 SGK Toán 7 – Trang 14 (Dạng 1: Bảng giá trị & Công thức)</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <h3>🧩 Bài tập 6.17 (SGK Trang 14)</h3>
+            <span class="badge-lesson" style="background: #0ea5e9; font-size: 13px;">Nhiệm vụ 3 / 7</span>
+          </div>
+          <p style="margin-top: 8px;">Cho biết \( x \) và \( y \) là hai đại lượng tỉ lệ thuận. Thay mỗi dấu "?" trong bảng sau bằng số thích hợp và viết công thức mô tả mối quan hệ giữa \( x \) và \( y \):</p>
+
+          <div class="math-table-wrap">
+            <table class="math-table">
+              <tr>
+                <th>\( x \)</th>
+                <td>2</td>
+                <td>4</td>
+                <td>5</td>
+                <td><input type="text" class="table-input" id="b617-x4" placeholder="?"></td>
+                <td><input type="text" class="table-input" id="b617-x5" placeholder="?"></td>
+                <td><input type="text" class="table-input" id="b617-x6" placeholder="?"></td>
+              </tr>
+              <tr>
+                <th>\( y \)</th>
+                <td>-6</td>
+                <td><input type="text" class="table-input" id="b617-y2" placeholder="?"></td>
+                <td><input type="text" class="table-input" id="b617-y3" placeholder="?"></td>
+                <td>9</td>
+                <td>18</td>
+                <td>1,5</td>
+              </tr>
+            </table>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px;">
+            <span style="font-weight: 800;">Công thức: \( y = \)</span>
+            <input type="text" class="table-input" id="b617-a" placeholder="a" style="width: 75px;">
+            <span style="font-weight: 900; font-size: 20px;">\( \cdot \, x \)</span>
+            <button class="btn btn-primary btn-sm" onclick="checkAct1()">✔️ Kiểm tra Hoạt Động 1</button>
+          </div>
+          <div class="feedback-box" id="feedback-act1"></div>
+        </div>
+
+        <div class="bottom-nav">
+          <button class="btn btn-secondary" onclick="goToSection(1)">⬅️ Quay lại: 2. Kiến Thức</button>
+          <button class="btn btn-primary" onclick="goToSection(3)">Tiếp tục: 4. Hoạt Động 2 ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 3: NHIỆM VỤ 4 - HOẠT ĐỘNG 2 ==================== -->
+    <section class="section-page" id="section-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🧪</div>
+          <div>
+            <h1>4. Hoạt Động 2: Phòng Thí Nghiệm Của Cô Hương</h1>
+            <p style="color: var(--text-muted); font-weight: 600;">Bài tập 6.21 SGK Toán 7 – Trang 14 (Dạng 2: Áp dụng dãy tỉ số bằng nhau)</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <h3>🧪 Bài tập 6.21 (SGK Trang 14)</h3>
+            <span class="badge-lesson" style="background: #10b981; font-size: 13px;">Nhiệm vụ 4 / 7</span>
+          </div>
+          <p style="margin-top: 8px;">
+            <strong>Đề bài:</strong> Để chuẩn bị cho học sinh làm thí nghiệm, cô Hương chia <strong>1,5 lít</strong> hoá chất thành ba phần tỉ lệ thuận với <strong>4; 5; 6</strong> và đựng trong ba chiếc lọ. Hỏi mỗi chiếc lọ đựng bao nhiêu lít hoá chất đó?
+          </p>
+
+          <!-- Visual 3 Flasks -->
+          <div class="visual-box">
+            <div class="flasks-row">
+              <div class="flask-card">
+                <svg viewBox="0 0 100 110" width="90" height="95">
+                  <path d="M38 10 H62 V35 L85 92 Q88 100 80 100 H20 Q12 100 15 92 L38 35 Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+                  <path d="M23 72 L77 72 L84 92 Q86 97 79 97 H21 Q14 97 16 92 Z" fill="#38bdf8"/>
+                  <text x="50" y="62" text-anchor="middle" font-weight="900" font-size="14" fill="#0369a1">Tỉ lệ: 4</text>
+                </svg>
+                <div style="font-weight: 800; margin-bottom: 6px;">Lọ thứ nhất (lít)</div>
+                <input type="text" class="table-input" id="b621-1" placeholder="?... lít">
+              </div>
+
+              <div class="flask-card">
+                <svg viewBox="0 0 100 110" width="90" height="95">
+                  <path d="M38 10 H62 V35 L85 92 Q88 100 80 100 H20 Q12 100 15 92 L38 35 Z" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
+                  <path d="M26 64 L74 64 L84 92 Q86 97 79 97 H21 Q14 97 16 92 Z" fill="#a78bfa"/>
+                  <text x="50" y="56" text-anchor="middle" font-weight="900" font-size="14" fill="#5b21b6">Tỉ lệ: 5</text>
+                </svg>
+                <div style="font-weight: 800; margin-bottom: 6px;">Lọ thứ hai (lít)</div>
+                <input type="text" class="table-input" id="b621-2" placeholder="?... lít">
+              </div>
+
+              <div class="flask-card">
+                <svg viewBox="0 0 100 110" width="90" height="95">
+                  <path d="M38 10 H62 V35 L85 92 Q88 100 80 100 H20 Q12 100 15 92 L38 35 Z" fill="#dcfce7" stroke="#059669" stroke-width="3"/>
+                  <path d="M29 56 L71 56 L84 92 Q86 97 79 97 H21 Q14 97 16 92 Z" fill="#34d399"/>
+                  <text x="50" y="48" text-anchor="middle" font-weight="900" font-size="14" fill="#065f46">Tỉ lệ: 6</text>
+                </svg>
+                <div style="font-weight: 800; margin-bottom: 6px;">Lọ thứ ba (lít)</div>
+                <input type="text" class="table-input" id="b621-3" placeholder="?... lít">
+              </div>
+            </div>
+            <div class="visual-caption">[HÌNH MINH HỌA: Ba chiếc lọ thí nghiệm chứa lượng hoá chất tỉ lệ thuận với 4; 5; 6]</div>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="checkAct2()">✔️ Kiểm tra Hoạt Động 2</button>
+          <div class="feedback-box" id="feedback-act2"></div>
+        </div>
+
+        <div class="bottom-nav">
+          <button class="btn btn-secondary" onclick="goToSection(2)">⬅️ Quay lại: 3. Hoạt Động 1</button>
+          <button class="btn btn-primary" onclick="goToSection(4)">Tiếp tục: 5. Hoạt Động 3 ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 4: NHIỆM VỤ 5 - HOẠT ĐỘNG 3 ==================== -->
+    <section class="section-page" id="section-4">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🔗</div>
+          <div>
+            <h1>5. Hoạt Động 3: Suy Luận Mối Quan Hệ Bắc Cầu</h1>
+            <p style="color: var(--text-muted); font-weight: 600;">Bài tập 6.19 SGK Toán 7 – Trang 14 (Dạng 3: Suy luận công thức)</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <h3>🔗 Bài tập 6.19 (SGK Trang 14)</h3>
+            <span class="badge-lesson" style="background: #f59e0b; font-size: 13px;">Nhiệm vụ 5 / 7</span>
+          </div>
+          <p style="margin-top: 8px;">
+            <strong>Đề bài:</strong> Cho biết \( y \) tỉ lệ thuận với \( x \) theo hệ số tỉ lệ \( a \), \( x \) tỉ lệ thuận với \( z \) theo hệ số tỉ lệ \( b \) (\( a \neq 0, b \neq 0 \)). Hỏi \( y \) có tỉ lệ thuận với \( z \) không? Nếu có thì hệ số tỉ lệ là bao nhiêu?
+          </p>
+
+          <div class="mcq-list" id="act3-mcq">
+            <button class="mcq-option" onclick="checkAct3(this, false)">
+              <span class="opt-letter">A</span> Không, \( y \) không tỉ lệ thuận với \( z \).
+            </button>
+            <button class="mcq-option" onclick="checkAct3(this, false)">
+              <span class="opt-letter">B</span> Có, \( y \) tỉ lệ thuận với \( z \) theo hệ số tỉ lệ \( \dfrac{a}{b} \).
+            </button>
+            <button class="mcq-option" onclick="checkAct3(this, true)">
+              <span class="opt-letter">C</span> Có, \( y \) tỉ lệ thuận với \( z \) theo hệ số tỉ lệ \( a \cdot b \).
+            </button>
+            <button class="mcq-option" onclick="checkAct3(this, false)">
+              <span class="opt-letter">D</span> Có, \( y \) tỉ lệ thuận với \( z \) theo hệ số tỉ lệ \( a + b \).
+            </button>
+          </div>
+          <div class="feedback-box" id="feedback-act3"></div>
+        </div>
+
+        <div class="bottom-nav">
+          <button class="btn btn-secondary" onclick="goToSection(3)">⬅️ Quay lại: 4. Hoạt Động 2</button>
+          <button class="btn btn-primary" onclick="goToSection(5)">Tiếp tục: 6. Hoạt Động 4 ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 5: NHIỆM VỤ 6 - HOẠT ĐỘNG 4 ==================== -->
+    <section class="section-page" id="section-5">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🧲</div>
+          <div>
+            <h1>6. Hoạt Động 4: Ghép Cặp Bài Toán Thực Tế SGK</h1>
+            <p style="color: var(--text-muted); font-weight: 600;">Kết nối Luyện tập 1, Luyện tập 2, Luyện tập 3 và Bài 6.20 SGK Toán 7</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <h3>🧲 Ghép Cặp Kiến Thức Thực Tế</h3>
+            <span class="badge-lesson" style="background: #ec4899; font-size: 13px;">Nhiệm vụ 6 / 7</span>
+          </div>
+          <p style="margin-top: 8px;">Hãy bấm chọn <strong>1 ô ở cột bên trái (Bài toán SGK)</strong> rồi bấm vào <strong>ô đáp số tương ứng ở cột bên phải</strong> để ghép thành cặp đúng!</p>
+
+          <div class="match-grid">
+            <div id="match-left" style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="match-item" data-pair="1" onclick="selectMatchLeft(this)">
+                🌱 <strong>Luyện tập 1 (Trang 12):</strong> Trong 100 g đậu tương có 34 g protein. Hệ số tỉ lệ của khối lượng protein đối với đậu tương là:
+              </div>
+              <div class="match-item" data-pair="2" onclick="selectMatchLeft(this)">
+                🚰 <strong>Bài 6.20 (Trang 14):</strong> Chiều cao bể 1 bằng \( \frac{3}{4} \) bể 2. Bơm đầy bể 1 mất 4,5 giờ. Thời gian bơm đầy bể 2 là:
+              </div>
+              <div class="match-item" data-pair="3" onclick="selectMatchLeft(this)">
+                🔩 <strong>Luyện tập 2 (Trang 13):</strong> Hai thanh kim loại \( 10\text{ cm}^3 \) và \( 15\text{ cm}^3 \), thanh lớn nặng hơn thanh nhỏ 40 g. Khối lượng hai thanh là:
+              </div>
+              <div class="match-item" data-pair="4" onclick="selectMatchLeft(this)">
+                🌾 <strong>Luyện tập 3 (Trang 14):</strong> Chia 1 tấn (1000 kg) gạo thành 3 phần tỉ lệ thuận với 2; 3; 5. Ba phần đó là:
+              </div>
+            </div>
+
+            <div id="match-right" style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="match-item" data-pair="2" onclick="selectMatchRight(this)">
+                ⏱️ <strong>6 giờ</strong> (vì \( t_2 = 4,5 : \dfrac{3}{4} = 6 \))
+              </div>
+              <div class="match-item" data-pair="4" onclick="selectMatchRight(this)">
+                ⚖️ <strong>200 kg; 300 kg và 500 kg</strong> (tức 0,2 tấn; 0,3 tấn; 0,5 tấn)
+              </div>
+              <div class="match-item" data-pair="1" onclick="selectMatchRight(this)">
+                🔢 <strong>\( a = \dfrac{34}{100} = 0,34 \)</strong>
+              </div>
+              <div class="match-item" data-pair="3" onclick="selectMatchRight(this)">
+                🏋️ <strong>80 g và 120 g</strong> (vì \( \dfrac{40}{15-10} = 8\text{ g/cm}^3 \))
+              </div>
+            </div>
+          </div>
+
+          <div class="feedback-box" id="feedback-act4"></div>
+        </div>
+
+        <div class="bottom-nav">
+          <button class="btn btn-secondary" onclick="goToSection(4)">⬅️ Quay lại: 5. Hoạt Động 3</button>
+          <button class="btn btn-primary" onclick="goToSection(6)">Tiếp tục: 7. Game & Tổng Kết 🏆</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 6: NHIỆM VỤ 7 - ĐỀ KIỂM TRA 50 CÂU (100 ĐIỂM) & TỔNG KẾT ==================== -->
+    <section class="section-page" id="section-6">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🏆</div>
+          <div>
+            <h1>7. Thử Thách Cuối Bài: Chinh Phục 50 Câu Hỏi Tỉ Lệ Thuận (100 Điểm)</h1>
+            <p style="color: var(--text-muted); font-weight: 600;">Gồm 5 phần: TN Nhiều lựa chọn (10 câu) • TN Đúng/Sai (10 câu) • TN Ghép cột (10 câu) • TN Trả lời ngắn (10 câu) • Tự luận (10 câu) — Mỗi câu đúng được 2 điểm!</p>
+          </div>
+        </div>
+
+        <div class="golden-box" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <strong>🎮 Thể lệ & Cách tính điểm (Tổng 100 điểm / 50 câu):</strong> Mỗi câu đúng đạt <strong>2 điểm</strong>. Bạn có thể bấm nút <strong>"Chấm câu này"</strong> ở từng câu để xem ngay <em>Nhận xét, Đáp án chi tiết, Điểm số tại chỗ & Xếp hạng</em>, hoặc bấm <strong>"Nộp Bài Toàn Bộ 50 Câu & Lưu Điểm"</strong> để tổng kết và gửi điểm lên Google Sheets!
+          </div>
+          <span class="badge-lesson" id="game-live-badge">Điểm hiện tại: 0/100 đ (0/50 câu)</span>
+        </div>
+
+        <!-- BẢNG ĐIỂM TRỰC TIẾP THEO TỪNG PHẦN & XẾP HẠNG -->
+        <div class="score-breakdown-grid" id="live-score-board">
+          <div class="score-stat-box">
+            <div class="stat-label">I. TN Nhiều Lựa Chọn (10 câu)</div>
+            <div class="stat-val" id="live-score-mcq">0 / 20 đ</div>
+          </div>
+          <div class="score-stat-box">
+            <div class="stat-label">II. TN Đúng / Sai (10 câu)</div>
+            <div class="stat-val" id="live-score-tf">0 / 20 đ</div>
+          </div>
+          <div class="score-stat-box">
+            <div class="stat-label">III. TN Ghép Cột (10 câu)</div>
+            <div class="stat-val" id="live-score-match">0 / 20 đ</div>
+          </div>
+          <div class="score-stat-box">
+            <div class="stat-label">IV. TN Trả Lời Ngắn (10 câu)</div>
+            <div class="stat-val" id="live-score-short">0 / 20 đ</div>
+          </div>
+          <div class="score-stat-box highlight">
+            <div class="stat-label">Tổng Điểm Trắc Nghiệm (40 câu)</div>
+            <div class="stat-val" id="live-score-quiz-total">0 / 80 đ</div>
+          </div>
+          <div class="score-stat-box">
+            <div class="stat-label">V. Tự Luận (10 câu)</div>
+            <div class="stat-val" id="live-score-essay">0 / 20 đ</div>
+          </div>
+          <div class="score-stat-box total">
+            <div class="stat-label">TỔNG ĐIỂM HỌC SINH (50 câu)</div>
+            <div class="stat-val" id="live-score-grand-total">0 / 100 đ</div>
+          </div>
+          <div class="score-stat-box rank">
+            <div class="stat-label">XẾP HẠNG HIỆN TẠI</div>
+            <div class="stat-val" id="live-rank-label" style="font-size: 16px;">Chưa xếp hạng</div>
+          </div>
+        </div>
+
+        <!-- THANH LỌC 5 PHẦN CÂU HỎI -->
+        <div class="part-filter-bar">
+          <button class="part-filter-btn active" onclick="filterExamPart('all', this)">📋 Tất cả (50 câu - 100đ)</button>
+          <button class="part-filter-btn" onclick="filterExamPart('part1', this)">1️⃣ TN Nhiều lựa chọn (Câu 1–10)</button>
+          <button class="part-filter-btn" onclick="filterExamPart('part2', this)">2️⃣ TN Đúng / Sai (Câu 11–20)</button>
+          <button class="part-filter-btn" onclick="filterExamPart('part3', this)">3️⃣ TN Ghép cột (Câu 21–30)</button>
+          <button class="part-filter-btn" onclick="filterExamPart('part4', this)">4️⃣ TN Trả lời ngắn (Câu 31–40)</button>
+          <button class="part-filter-btn" onclick="filterExamPart('part5', this)">5️⃣ Tự luận (Câu 41–50)</button>
+        </div>
+
+        <!-- DANH SÁCH 50 CÂU HỎI ĐƯỢC RENDER TỰ ĐỘNG -->
+        <div id="exam-questions-container"></div>
+
+        <div style="text-align: center; margin: 28px 0 12px;">
+          <button class="btn btn-success" style="font-size: 20px; padding: 16px 36px;" onclick="submitGameChallenge()">
+            🏁 Nộp Bài Toàn Bộ 50 Câu & Lưu Điểm Lên Google Sheets
+          </button>
+        </div>
+      </div>
+
+      <!-- BẢNG VÀNG & TỔNG KẾT BÀI HỌC -->
+      <div class="card" id="summary-card">
+        <div class="card-header">
+          <div class="card-icon">🎉</div>
+          <div>
+            <h2>Bảng Vàng Thành Tích & Tổng Kết Bài Học</h2>
+            <p style="color: var(--text-muted); font-weight: 600;">Thống kê chi tiết điểm từng phần, xếp hạng học sinh & liên kết Google Apps Script</p>
+          </div>
+        </div>
+
+        <!-- Score Card -->
+        <div class="visual-box" style="background: linear-gradient(135deg, #eef2ff 0%, #dcfce7 100%); border-color: #34d399;">
+          <div style="font-size: 46px;" id="result-trophy">🏆</div>
+          <h2 id="result-score-title" style="font-size: 28px; margin: 6px 0;">Kết Quả Bài Kiểm Tra 50 Câu: Chưa nộp bài</h2>
+          <p id="result-message" style="font-size: 18px; font-weight: 700; color: #065f46; max-width: 820px; margin: 0 auto;">
+            Hãy chấm từng câu hỏi hoặc bấm nút "Nộp Bài Toàn Bộ 50 Câu & Lưu Điểm" ở trên để xem bảng điểm chi tiết và xếp hạng của bạn nhé!
+          </p>
+
+          <!-- Bảng tổng hợp điểm từng phần trong phần Tổng kết -->
+          <div class="math-table-wrap" style="margin-top: 16px;">
+            <table class="math-table" style="font-size: 15px;">
+              <thead>
+                <tr>
+                  <th>Họ và tên HS</th>
+                  <th>Lớp</th>
+                  <th>I. TN Nhiều lựa chọn</th>
+                  <th>II. TN Đúng/Sai</th>
+                  <th>III. TN Ghép cột</th>
+                  <th>IV. TN Trả lời ngắn</th>
+                  <th>Tổng TN (40 câu)</th>
+                  <th>V. Tự luận (10 câu)</th>
+                  <th>Tổng Điểm (50 câu)</th>
+                  <th>Xếp Hạng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="sum-student-name">Chưa đăng nhập</td>
+                  <td id="sum-student-class">--</td>
+                  <td id="sum-score-mcq">0 / 20</td>
+                  <td id="sum-score-tf">0 / 20</td>
+                  <td id="sum-score-match">0 / 20</td>
+                  <td id="sum-score-short">0 / 20</td>
+                  <td id="sum-score-quiz" style="color: var(--primary-dark);">0 / 80</td>
+                  <td id="sum-score-essay" style="color: #7c3aed;">0 / 20</td>
+                  <td id="sum-score-total" style="color: #059669; font-size: 18px;">0 / 100</td>
+                  <td id="sum-rank">Chưa xếp hạng</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="sheet-sync-status" style="margin-top: 12px; font-size: 15px; font-weight: 800; color: var(--primary-dark); display: none;"></div>
+        </div>
+
+        <!-- Summary Cards -->
+        <h2 style="margin: 24px 0 12px;">📌 Tóm Tắt Kiến Thức Trọng Tâm (Sổ Tay Toán 7)</h2>
+        <div class="grid-2">
+          <div class="info-card">
+            <h3>1️⃣ Định nghĩa & Hệ số tỉ lệ</h3>
+            <p>• Nếu \( y = ax \) (\( a \neq 0 \)) thì \( y \) tỉ lệ thuận với \( x \) theo hệ số tỉ lệ \( a \).</p>
+            <p>• Cách tìm hệ số tỉ lệ: \( a = \dfrac{y}{x} \).</p>
+            <p>• Ngược lại, \( x \) tỉ lệ thuận với \( y \) theo hệ số tỉ lệ \( \dfrac{1}{a} \).</p>
+          </div>
+
+          <div class="info-card">
+            <h3>2️⃣ Tính chất & Các bước giải bài toán</h3>
+            <p>• Tỉ số hai giá trị tương ứng luôn không đổi: \( \dfrac{y_1}{x_1} = \dfrac{y_2}{x_2} = \dfrac{y_3}{x_3} = a \).</p>
+            <p>• Áp dụng <strong>tính chất dãy tỉ số bằng nhau</strong> để giải bài toán chia phần tỉ lệ thuận:
+              \[ \frac{x}{a} = \frac{y}{b} = \frac{z}{c} = \frac{x+y+z}{a+b+c} \]
+            </p>
+          </div>
+        </div>
+
+        <!-- Giải đáp bài toán mở đầu Bột sắn dây -->
+        <div class="golden-box" style="margin-top: 20px;">
+          <div class="golden-title">💡 Lời giải Bài toán mở đầu (Bột sắn dây của ông An - SGK Trang 11)</div>
+          <p>Đổi \( 3\text{ tạ} = 300\text{ kg} \). Vì khối lượng bột sắn dây tỉ lệ thuận với khối lượng củ sắn dây tươi nên từ \( 300\text{ kg} \) củ sắn dây tươi, ông An thu được số kilôgam bột là:</p>
+          <p style="font-weight: 900; font-size: 20px; color: #b45309; margin-top: 6px;">
+            \( x = \dfrac{300}{4,5} = \dfrac{200}{3} \approx 66,7\text{ (kg bột sắn dây)} \)
+          </p>
+        </div>
+
+        <!-- Các nút điều hướng cuối bài -->
+        <div class="bottom-nav">
+          <button class="btn btn-secondary" onclick="goToSection(5)">⬅️ Quay lại: 6. Hoạt Động 4</button>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="goToSection(0)">🏠 Về Trang Đầu</button>
+            <button class="btn btn-primary" onclick="resetLesson()">🔄 Học Lại Từ Đầu</button>
+            <button class="btn btn-success" onclick="toggleHelpModal(true)">❓ Trợ Giúp</button>
+            <button class="btn btn-danger" onclick="logoutStudent()">🚪 Đăng Xuất</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  </div><!-- /#app-wrapper -->
+
+  <!-- HELP MODAL -->
+  <div class="modal-backdrop" id="help-modal" onclick="if(event.target===this) toggleHelpModal(false)">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h2>🧭 Hướng Dẫn Sử Dụng Bài Học Tương Tác</h2>
+        <button class="btn btn-secondary btn-sm" onclick="toggleHelpModal(false)">✖ Đóng</button>
+      </div>
+      <ul style="padding-left: 20px; line-height: 1.8;">
+        <li><strong>Thanh tiến trình (Trên cùng):</strong> Tự động tăng lên khi bạn hoàn thành đúng từng hoạt động tương tác trong bài học.</li>
+        <li><strong>Cách nhập số thập phân:</strong> Bạn có thể nhập dấu phẩy (ví dụ <code>1,5</code>) hoặc dấu chấm (ví dụ <code>1.5</code>) đều được hệ thống công nhận.</li>
+        <li><strong>Phản hồi & Gợi ý tức thì:</strong> Nếu trả lời sai lần đầu, hệ thống sẽ đưa ra <em>Gợi ý phương pháp</em> để bạn tự suy nghĩ và thử lại. Nếu sai từ lần thứ 2, hệ thống sẽ hướng dẫn chi tiết từng bước.</li>
+        <li><strong>Đề kiểm tra 50 câu (100 điểm) cuối bài:</strong> Gồm 5 phần (mỗi phần 10 câu × 2 điểm = 20 điểm). Bạn có thể bấm nút <em>"Chấm câu này"</em> ở từng câu để xem ngay nhận xét, đáp án, điểm tại chỗ và xếp hạng, hoặc bấm <em>"Nộp Bài Toàn Bộ 50 Câu"</em> để lưu điểm lên Google Sheets!</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MathJax for crisp formula rendering -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <script>
+    // =========================================================================
+    // CẤU HÌNH LIÊN KẾT GOOGLE APPS SCRIPT (Code.gs)
+    // Dán URL Web App sau khi Deploy từ Google Apps Script vào giữa dấu nháy đơn:
+    // =========================================================================
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMZXuptgcDaRzOvVXEhjkqs6RyA1OFvQEi4u-gLzbAgVGFw5NP8LAr13U2qprAHrZn2w/exec';
+
+    // Track completed milestones for the Progress Bar (7 tasks matching 7 tabs)
+    const completedTasks = {
+      task1: false, // Tab 0: 1. Khởi Động
+      task2: false, // Tab 1: 2. Kiến Thức (Ví dụ tương tác)
+      task3: false, // Tab 2: 3. Hoạt Động 1 (Bài 6.17)
+      task4: false, // Tab 3: 4. Hoạt Động 2 (Bài 6.21)
+      task5: false, // Tab 4: 5. Hoạt Động 3 (Bài 6.19)
+      task6: false, // Tab 5: 6. Hoạt Động 4 (Ghép cặp SGK)
+      task7: false  // Tab 6: 7. Game & Tổng Kết
+    };
+
+    let warmup1Done = false;
+    let warmup2Done = false;
+
+    const retryCounts = {
+      warmup2: 0,
+      vd: 0,
+      act1: 0,
+      act2: 0,
+      act3: 0
+    };
+
+    // Simple Web Audio sound effects
+    function playSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'success') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.45);
+        } else {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, ctx.currentTime);
+          osc.frequency.setValueAtTime(180, ctx.currentTime + 0.12);
+          gain.gain.setValueAtTime(0.1, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.3);
+        }
+      } catch (e) {}
+    }
+
+    function parseVNNumber(val) {
+      if (!val) return NaN;
+      const cleaned = val.toString().trim().replace(',', '.').replace(/\s+/g, '');
+      return parseFloat(cleaned);
+    }
+
+    function updateProgress() {
+      const keys = Object.keys(completedTasks);
+      const doneCount = keys.filter(k => completedTasks[k]).length;
+      const pct = Math.round((doneCount / keys.length) * 100);
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = `${pct}% (${doneCount}/${keys.length} nhiệm vụ)`;
+
+      // Mark each of the 7 tabs completed 1-to-1
+      keys.forEach((key, idx) => {
+        const tabEl = document.getElementById(`tab-${idx}`);
+        if (tabEl) {
+          tabEl.classList.toggle('completed', completedTasks[key]);
+        }
+      });
+    }
+
+    function goToSection(idx) {
+      document.querySelectorAll('.section-page').forEach((sec, i) => {
+        sec.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.nav-tab').forEach((tab, i) => {
+        tab.classList.toggle('active', i === idx);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleHelpModal(open) {
+      document.getElementById('help-modal').classList.toggle('open', open);
+    }
+
+    // Car simulation
+    function updateCarSimulation(tVal) {
+      const t = parseFloat(tVal);
+      const s = t * 60;
+      document.getElementById('sim-time').textContent = t.toString().replace('.', ',') + ' giờ';
+      document.getElementById('sim-dist').textContent = s + ' km';
+      const xPos = 30 + (t / 3) * 550;
+      document.getElementById('car-svg-group').setAttribute('transform', `translate(${xPos}, 62)`);
+    }
+
+    function showFeedback(elId, type, html) {
+      const fb = document.getElementById(elId);
+      fb.className = `feedback-box show ${type}`;
+      fb.innerHTML = html;
+    }
+
+    // Warmup 1 MCQ
+    function checkWarmupMCQ(btn, isCorrect) {
+      const parent = document.getElementById('warmup-mcq');
+      parent.querySelectorAll('.mcq-option').forEach(b => b.classList.remove('correct', 'wrong', 'selected'));
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        playSound('success');
+        warmup1Done = true;
+        if (warmup1Done && warmup2Done) {
+          completedTasks.task1 = true;
+        }
+        updateProgress();
+        showFeedback('feedback-warmup-1', 'success', '🎉 <div><strong>Chính xác!</strong> Khi vận tốc không đổi (60 km/h), thời gian di chuyển tăng lên bao nhiêu lần thì quãng đường đi được cũng tăng lên bấy nhiêu lần. Có vẻ bạn đã nắm được ý tưởng cốt lõi của Đại lượng tỉ lệ thuận rồi đó!</div>');
+      } else {
+        btn.classList.add('wrong');
+        playSound('error');
+        showFeedback('feedback-warmup-1', 'hint', '💡 <div><strong>Gợi ý:</strong> Bạn hãy thử kéo thanh trượt chiếc xe ô tô ở trên từ 1 giờ lên 2 giờ xem quãng đường tăng hay giảm nhé! Cố lên!</div>');
+      }
+    }
+
+    // Warmup 2: HĐ1 & HĐ2
+    function checkHD12() {
+      const expected = [
+        { id: 'hd1-1', val: 60 },
+        { id: 'hd1-2', val: 90 },
+        { id: 'hd1-3', val: 120 },
+        { id: 'hd1-4', val: 180 },
+        { id: 'hd2-coef', val: 60 }
+      ];
+      let allRight = true;
+      expected.forEach(item => {
+        const el = document.getElementById(item.id);
+        const userVal = parseVNNumber(el.value);
+        if (Math.abs(userVal - item.val) < 1e-6) {
+          el.classList.add('correct');
+          el.classList.remove('wrong');
+        } else {
+          el.classList.add('wrong');
+          el.classList.remove('correct');
+          allRight = false;
+        }
+      });
+
+      if (allRight) {
+        playSound('success');
+        warmup2Done = true;
+        completedTasks.task1 = true;
+        updateProgress();
+        showFeedback('feedback-warmup-2', 'success', '🌟 <div><strong>Tuyệt vời!</strong> Bạn đã hoàn thành Nhiệm vụ 1 (HĐ1 và HĐ2 trong SGK): Quãng đường <code>s = 60 · t</code>. Ở đây <code>s</code> tỉ lệ thuận với <code>t</code> theo hệ số tỉ lệ <code>a = 60</code>!</div>');
+      } else {
+        playSound('error');
+        retryCounts.warmup2++;
+        if (retryCounts.warmup2 === 1) {
+          showFeedback('feedback-warmup-2', 'hint', '💡 <div><strong>Gợi ý:</strong> Công thức tính quãng đường là <code>s = vận tốc × thời gian = 60 × t</code>. Bạn hãy lấy 60 nhân với từng giá trị <code>t</code> trong bảng và thử lại nhé!</div>');
+        } else {
+          showFeedback('feedback-warmup-2', 'error', '📘 <div><strong>Hướng dẫn từng bước:</strong> Với <code>t = 1</code> thì <code>s = 60·1 = 60</code>; <code>t = 1,5</code> thì <code>s = 60·1,5 = 90</code>; <code>t = 2</code> thì <code>s = 120</code>; <code>t = 3</code> thì <code>s = 180</code>. Công thức là <code>s = 60·t</code>.</div>');
+        }
+      }
+    }
+
+    // Quick Example in Section 1 (Nhiệm vụ 2)
+    function checkQuickExample() {
+      const aEl = document.getElementById('vd-a');
+      const y1El = document.getElementById('vd-y1');
+      const x4El = document.getElementById('vd-x4');
+      const y5El = document.getElementById('vd-y5');
+
+      const aOk = Math.abs(parseVNNumber(aEl.value) - 2) < 1e-6;
+      const y1Ok = Math.abs(parseVNNumber(y1El.value) - 4) < 1e-6;
+      const x4Ok = Math.abs(parseVNNumber(x4El.value) - 9) < 1e-6;
+      const y5Ok = Math.abs(parseVNNumber(y5El.value) - 18) < 1e-6;
+
+      aEl.className = 'table-input ' + (aOk ? 'correct' : 'wrong');
+      y1El.className = 'table-input ' + (y1Ok ? 'correct' : 'wrong');
+      x4El.className = 'table-input ' + (x4Ok ? 'correct' : 'wrong');
+      y5El.className = 'table-input ' + (y5Ok ? 'correct' : 'wrong');
+
+      if (aOk && y1Ok && x4Ok && y5Ok) {
+        playSound('success');
+        completedTasks.task2 = true;
+        updateProgress();
+        showFeedback('feedback-vd', 'success', '🎉 <div><strong>Hoàn hảo!</strong> Bạn đã hoàn thành Nhiệm vụ 2: Tìm đúng hệ số tỉ lệ <code>a = 8 / 4 = 2</code> và điền chính xác toàn bộ bảng giá trị!</div>');
+      } else if (!aOk) {
+        playSound('error');
+        showFeedback('feedback-vd', 'hint', '💡 <div><strong>Gợi ý tìm a:</strong> Bạn thử lấy một cặp <code>y</code> và <code>x</code> đã biết để tính <code>a = y / x</code> xem sao? Ví dụ: <code>8 chia 4</code> bằng bao nhiêu?</div>');
+      } else {
+        playSound('error');
+        showFeedback('feedback-vd', 'hint', '💡 <div><strong>Gợi ý điền bảng:</strong> Bạn đã tìm đúng <code>a = 2</code>! Giờ hãy dùng công thức <code>y = 2·x</code> (và <code>x = y : 2</code>) để kiểm tra lại các ô màu đỏ nhé.</div>');
+      }
+    }
+
+    // Activity 1: Bài 6.17 SGK (Nhiệm vụ 3)
+    function checkAct1() {
+      const checks = [
+        { id: 'b617-y2', val: -12 },
+        { id: 'b617-y3', val: -15 },
+        { id: 'b617-x4', val: -3 },
+        { id: 'b617-x5', val: -6 },
+        { id: 'b617-x6', val: -0.5 },
+        { id: 'b617-a', val: -3 }
+      ];
+      let allOk = true;
+      checks.forEach(c => {
+        const el = document.getElementById(c.id);
+        const ok = Math.abs(parseVNNumber(el.value) - c.val) < 1e-6;
+        el.className = 'table-input ' + (ok ? 'correct' : 'wrong');
+        if (!ok) allOk = false;
+      });
+
+      if (allOk) {
+        playSound('success');
+        completedTasks.task3 = true;
+        updateProgress();
+        showFeedback('feedback-act1', 'success', '🌟 <div><strong>Tuyệt vời!</strong> Bạn đã tính toán rất cẩn thận và giải trọn vẹn Bài 6.17 SGK: Hệ số tỉ lệ <code>a = (-6) : 2 = -3</code>, công thức là <code>y = -3x</code>!</div>');
+      } else {
+        playSound('error');
+        retryCounts.act1++;
+        if (retryCounts.act1 === 1) {
+          showFeedback('feedback-act1', 'hint', '💡 <div><strong>Gợi ý:</strong> Đầu tiên, hãy tìm hệ số tỉ lệ <code>a</code> từ cột đầu tiên <code>(x = 2; y = -6)</code> bằng phép tính <code>a = (-6) : 2</code>. Sau đó nhân <code>x</code> với <code>a</code> để tìm <code>y</code>, hoặc lấy <code>y</code> chia cho <code>a</code> để tìm <code>x</code> nhé!</div>');
+        } else {
+          showFeedback('feedback-act1', 'error', '📘 <div><strong>Hướng dẫn chi tiết:</strong> Ta có <code>a = -6 / 2 = -3</code> nên công thức là <code>y = -3x</code>.<br>• Khi <code>x = 4 ⇒ y = -12</code>; <code>x = 5 ⇒ y = -15</code>.<br>• Khi <code>y = 9 ⇒ x = 9 : (-3) = -3</code>; <code>y = 18 ⇒ x = -6</code>; <code>y = 1,5 ⇒ x = 1,5 : (-3) = -0,5</code>.</div>');
+        }
+      }
+    }
+
+    // Activity 2: Bài 6.21 SGK (Nhiệm vụ 4)
+    function checkAct2() {
+      const checks = [
+        { id: 'b621-1', val: 0.4 },
+        { id: 'b621-2', val: 0.5 },
+        { id: 'b621-3', val: 0.6 }
+      ];
+      let allOk = true;
+      checks.forEach(c => {
+        const el = document.getElementById(c.id);
+        const ok = Math.abs(parseVNNumber(el.value) - c.val) < 1e-6;
+        el.className = 'table-input ' + (ok ? 'correct' : 'wrong');
+        if (!ok) allOk = false;
+      });
+
+      if (allOk) {
+        playSound('success');
+        completedTasks.task4 = true;
+        updateProgress();
+        showFeedback('feedback-act2', 'success', '🧪 <div><strong>Xuất sắc!</strong> Bạn đã giải quyết Bài 6.21 SGK hoàn toàn chính xác: Ba chiếc lọ đựng lần lượt <strong>0,4 lít; 0,5 lít và 0,6 lít</strong> hoá chất!</div>');
+      } else {
+        playSound('error');
+        retryCounts.act2++;
+        if (retryCounts.act2 === 1) {
+          showFeedback('feedback-act2', 'hint', '💡 <div><strong>Gợi ý:</strong> Bài toán này áp dụng tính chất của dãy tỉ số bằng nhau: <code>x/4 = y/5 = z/6 = (x + y + z) / (4 + 5 + 6)</code>. Biết tổng <code>x + y + z = 1,5</code> lít, bạn hãy tính giá trị chung này rồi nhân với 4; 5; 6 nhé!</div>');
+        } else {
+          showFeedback('feedback-act2', 'error', '📘 <div><strong>Hướng dẫn từng bước:</strong> Áp dụng tính chất dãy tỉ số bằng nhau: <code>x/4 = y/5 = z/6 = 1,5 / (4 + 5 + 6) = 1,5 / 15 = 0,1</code>.<br>Suy ra: Lọ 1: <code>0,1 × 4 = 0,4</code> (lít); Lọ 2: <code>0,1 × 5 = 0,5</code> (lít); Lọ 3: <code>0,1 × 6 = 0,6</code> (lít).</div>');
+        }
+      }
+    }
+
+    // Activity 3: Bài 6.19 SGK (Nhiệm vụ 5)
+    function checkAct3(btn, isCorrect) {
+      const parent = document.getElementById('act3-mcq');
+      parent.querySelectorAll('.mcq-option').forEach(b => b.classList.remove('correct', 'wrong', 'selected'));
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        playSound('success');
+        completedTasks.task5 = true;
+        updateProgress();
+        showFeedback('feedback-act3', 'success', '🎯 <div><strong>Hoàn toàn chính xác!</strong> Vì <code>y = a·x</code> và <code>x = b·z</code> nên khi thay <code>x</code> vào ta được <code>y = a·(b·z) = (a·b)·z</code>. Vậy <code>y</code> tỉ lệ thuận với <code>z</code> theo hệ số tỉ lệ <code>a·b</code>!</div>');
+      } else {
+        btn.classList.add('wrong');
+        playSound('error');
+        retryCounts.act3++;
+        if (retryCounts.act3 === 1) {
+          showFeedback('feedback-act3', 'hint', '💡 <div><strong>Gợi ý:</strong> Hãy nhớ lại công thức <code>y = a·x</code> và <code>x = b·z</code>. Bạn có thể thay <code>x = b·z</code> vào biểu thức của <code>y</code> để tìm mối quan hệ giữa <code>y</code> và <code>z</code> không?</div>');
+        } else {
+          showFeedback('feedback-act3', 'error', '📘 <div><strong>Giải thích ngắn gọn:</strong> Thay <code>x = b·z</code> vào <code>y = a·x</code> ta có <code>y = a · (b · z) = (a · b) · z</code>. Hãy chọn đáp án C nhé!</div>');
+        }
+      }
+    }
+
+    // Activity 4: Matching Pairs (Nhiệm vụ 6)
+    let selectedLeft = null;
+    let matchedCount = 0;
+
+    function selectMatchLeft(el) {
+      if (el.classList.contains('matched')) return;
+      document.querySelectorAll('#match-left .match-item').forEach(item => item.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedLeft = el;
+    }
+
+    function selectMatchRight(el) {
+      if (el.classList.contains('matched')) return;
+      if (!selectedLeft) {
+        showFeedback('feedback-act4', 'hint', '👆 <div>Hãy bấm chọn một bài toán ở <strong>cột bên trái</strong> trước, sau đó bấm vào đáp số tương ứng ở cột bên phải nhé!</div>');
+        return;
+      }
+
+      const leftPair = selectedLeft.getAttribute('data-pair');
+      const rightPair = el.getAttribute('data-pair');
+
+      if (leftPair === rightPair) {
+        selectedLeft.classList.remove('selected');
+        selectedLeft.classList.add('matched');
+        el.classList.add('matched');
+        selectedLeft = null;
+        matchedCount++;
+        playSound('success');
+
+        if (matchedCount === 4) {
+          completedTasks.task6 = true;
+          updateProgress();
+          showFeedback('feedback-act4', 'success', '🏆 <div><strong>Xuất sắc!</strong> Bạn đã ghép đúng cả 4 bài toán thực tế trong SGK (Luyện tập 1, Luyện tập 2, Luyện tập 3 và Bài 6.20)!</div>');
+        } else {
+          showFeedback('feedback-act4', 'success', `✅ <div><strong>Ghép chính xác!</strong> Bạn đã hoàn thành ${matchedCount}/4 cặp. Tiếp tục nào!</div>`);
+        }
+      } else {
+        playSound('error');
+        showFeedback('feedback-act4', 'hint', '💡 <div><strong>Chưa khớp rồi!</strong> Bạn hãy kiểm tra lại tỉ số giữa các đại lượng trong đề bài và thử ghép lại nhé!</div>');
+      }
+    }
+
+    // =========================================================================
+    // ĐỀ KIỂM TRA 50 CÂU HỎI (100 ĐIỂM - MỖI CÂU 2 ĐIỂM)
+    // Gồm 5 phần:
+    // - part1: Trắc nghiệm nhiều lựa chọn (Câu 1 - 10, 20 điểm)
+    // - part2: Trắc nghiệm Đúng / Sai (Câu 11 - 20, 20 điểm)
+    // - part3: Trắc nghiệm Ghép cột (Câu 21 - 30, 20 điểm)
+    // - part4: Trắc nghiệm Trả lời ngắn (Câu 31 - 40, 20 điểm)
+    // - part5: Tự luận (Câu 41 - 50, 20 điểm)
+    // =========================================================================
+    const MATCH_COLUMN_B_OPTIONS = [
+      { key: 'A', text: 'A. Hệ số tỉ lệ a = -5' },
+      { key: 'B', text: 'B. Hệ số tỉ lệ k = 1/4' },
+      { key: 'C', text: 'C. Giá trị y = 36' },
+      { key: 'D', text: 'D. Giá trị x = -4' },
+      { key: 'E', text: 'E. Công thức s = 60t' },
+      { key: 'F', text: 'F. x = 14 và y = 21' },
+      { key: 'G', text: 'G. Nặng 195 gam' },
+      { key: 'H', text: 'H. Cần 150 gam đường' },
+      { key: 'I', text: 'I. Thu hoạch 12 tấn thóc' },
+      { key: 'J', text: 'J. Mất 5 phút' }
+    ];
+
+    const EXAM_QUESTIONS = [
+      // ==================== PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (CÂU 1 - 10) ====================
+      {
+        id: 1, part: 'part1', type: 'mcq',
+        question: 'Nếu đại lượng \\( y \\) liên hệ với đại lượng \\( x \\) theo công thức \\( y = 5x \\) thì hệ số tỉ lệ của \\( y \\) đối với \\( x \\) là:',
+        options: [
+          { key: 'A', text: '\\( 5 \\)' },
+          { key: 'B', text: '\\( \\dfrac{1}{5} \\)' },
+          { key: 'C', text: '\\( -5 \\)' },
+          { key: 'D', text: '\\( 0 \\)' }
+        ],
+        answer: 'A',
+        answerText: 'A. 5',
+        explanation: 'Theo định nghĩa: Nếu \\( y = ax \\) (\\( a \\neq 0 \\)) thì \\( y \\) tỉ lệ thuận với \\( x \\) theo hệ số tỉ lệ \\( a = 5 \\).'
+      },
+      {
+        id: 2, part: 'part1', type: 'mcq',
+        question: 'Cho đại lượng \\( y \\) tỉ lệ thuận với đại lượng \\( x \\) theo hệ số tỉ lệ \\( a = -4 \\). Khi đó \\( x \\) tỉ lệ thuận với \\( y \\) theo hệ số tỉ lệ nào?',
+        options: [
+          { key: 'A', text: '\\( 4 \\)' },
+          { key: 'B', text: '\\( -\\dfrac{1}{4} \\)' },
+          { key: 'C', text: '\\( \\dfrac{1}{4} \\)' },
+          { key: 'D', text: '\\( -4 \\)' }
+        ],
+        answer: 'B',
+        answerText: 'B. -1/4',
+        explanation: 'Khi \\( y \\) tỉ lệ thuận với \\( x \\) theo hệ số tỉ lệ \\( a = -4 \\) thì \\( x \\) tỉ lệ thuận với \\( y \\) theo hệ số tỉ lệ \\( \\dfrac{1}{a} = -\\dfrac{1}{4} \\).'
+      },
+      {
+        id: 3, part: 'part1', type: 'mcq',
+        question: 'Cho hai đại lượng tỉ lệ thuận \\( x \\) và \\( y \\). Biết khi \\( x = 3 \\) thì \\( y = 12 \\). Hệ số tỉ lệ \\( a \\) của \\( y \\) đối với \\( x \\) là:',
+        options: [
+          { key: 'A', text: '\\( 36 \\)' },
+          { key: 'B', text: '\\( \\dfrac{1}{4} \\)' },
+          { key: 'C', text: '\\( 4 \\)' },
+          { key: 'D', text: '\\( 9 \\)' }
+        ],
+        answer: 'C',
+        answerText: 'C. 4',
+        explanation: 'Hệ số tỉ lệ của \\( y \\) đối với \\( x \\) là \\( a = \\dfrac{y}{x} = \\dfrac{12}{3} = 4 \\).'
+      },
+      {
+        id: 4, part: 'part1', type: 'mcq',
+        question: 'Đại lượng \\( y \\) tỉ lệ thuận với đại lượng \\( x \\) theo hệ số tỉ lệ \\( a = \\dfrac{2}{3} \\). Khi \\( x = -9 \\) thì giá trị của \\( y \\) bằng:',
+        options: [
+          { key: 'A', text: '\\( 6 \\)' },
+          { key: 'B', text: '\\( -6 \\)' },
+          { key: 'C', text: '\\( -\\dfrac{27}{2} \\)' },
+          { key: 'D', text: '\\( -3 \\)' }
+        ],
+        answer: 'B',
+        answerText: 'B. -6',
+        explanation: 'Ta có công thức \\( y = \\dfrac{2}{3}x \\). Thay \\( x = -9 \\) vào công thức: \\( y = \\dfrac{2}{3} \\cdot (-9) = -6 \\).'
+      },
+      {
+        id: 5, part: 'part1', type: 'mcq',
+        question: 'Công thức nào dưới đây <strong>không</strong> biểu thị hai đại lượng \\( x \\) và \\( y \\) tỉ lệ thuận với nhau?',
+        options: [
+          { key: 'A', text: '\\( y = 2x \\)' },
+          { key: 'B', text: '\\( y = -\\dfrac{1}{3}x \\)' },
+          { key: 'C', text: '\\( y = \\dfrac{5}{x} \\)' },
+          { key: 'D', text: '\\( \\dfrac{y}{x} = 7 \\)' }
+        ],
+        answer: 'C',
+        answerText: 'C. y = 5/x',
+        explanation: 'Công thức \\( y = \\dfrac{5}{x} \\) (hay \\( x \\cdot y = 5 \\)) biểu thị hai đại lượng tỉ lệ nghịch, không phải tỉ lệ thuận.'
+      },
+      {
+        id: 6, part: 'part1', type: 'mcq',
+        question: 'Cho biết \\( x \\) và \\( y \\) là hai đại lượng tỉ lệ thuận. Khi \\( x_1 = 2 \\) thì \\( y_1 = -6 \\). Hỏi khi \\( x_2 = -5 \\) thì \\( y_2 \\) bằng bao nhiêu?',
+        options: [
+          { key: 'A', text: '\\( -15 \\)' },
+          { key: 'B', text: '\\( 15 \\)' },
+          { key: 'C', text: '\\( 10 \\)' },
+          { key: 'D', text: '\\( -10 \\)' }
+        ],
+        answer: 'B',
+        answerText: 'B. 15',
+        explanation: 'Hệ số tỉ lệ \\( a = \\dfrac{y_1}{x_1} = \\dfrac{-6}{2} = -3 \\). Do đó \\( y_2 = -3 \\cdot x_2 = -3 \\cdot (-5) = 15 \\).'
+      },
+      {
+        id: 7, part: 'part1', type: 'mcq',
+        question: 'Cho \\( y \\) tỉ lệ thuận với \\( x \\) theo hệ số tỉ lệ \\( a = 3 \\), và \\( x \\) tỉ lệ thuận với \\( z \\) theo hệ số tỉ lệ \\( b = -2 \\). Khi đó \\( y \\) tỉ lệ thuận với \\( z \\) theo hệ số tỉ lệ là:',
+        options: [
+          { key: 'A', text: '\\( 1 \\)' },
+          { key: 'B', text: '\\( -\\dfrac{3}{2} \\)' },
+          { key: 'C', text: '\\( -6 \\)' },
+          { key: 'D', text: '\\( 6 \\)' }
+        ],
+        answer: 'C',
+        answerText: 'C. -6',
+        explanation: 'Vì \\( y = 3x \\) và \\( x = -2z \\) nên \\( y = 3 \\cdot (-2z) = -6z \\). Hệ số tỉ lệ là \\( a \\cdot b = -6 \\).'
+      },
+      {
+        id: 8, part: 'part1', type: 'mcq',
+        question: 'Một công nhân làm được \\( 30 \\) sản phẩm trong \\( 2 \\) giờ. Hỏi với cùng năng suất đó, người công nhân làm được bao nhiêu sản phẩm trong \\( 5 \\) giờ?',
+        options: [
+          { key: 'A', text: '\\( 60 \\) sản phẩm' },
+          { key: 'B', text: '\\( 75 \\) sản phẩm' },
+          { key: 'C', text: '\\( 90 \\) sản phẩm' },
+          { key: 'D', text: '\\( 45 \\) sản phẩm' }
+        ],
+        answer: 'B',
+        answerText: 'B. 75 sản phẩm',
+        explanation: 'Trong 1 giờ công nhân làm được \\( 30 : 2 = 15 \\) sản phẩm. Trong 5 giờ làm được \\( 15 \\times 5 = 75 \\) sản phẩm.'
+      },
+      {
+        id: 9, part: 'part1', type: 'mcq',
+        question: 'Hai thanh sắt đồng chất có thể tích lần lượt là \\( 15\\text{ cm}^3 \\) và \\( 25\\text{ cm}^3 \\). Tỉ số khối lượng của thanh sắt thứ nhất và thanh sắt thứ hai là:',
+        options: [
+          { key: 'A', text: '\\( \\dfrac{3}{5} \\)' },
+          { key: 'B', text: '\\( \\dfrac{5}{3} \\)' },
+          { key: 'C', text: '\\( \\dfrac{2}{5} \\)' },
+          { key: 'D', text: '\\( \\dfrac{3}{8} \\)' }
+        ],
+        answer: 'A',
+        answerText: 'A. 3/5',
+        explanation: 'Vì khối lượng tỉ lệ thuận với thể tích nên \\( \\dfrac{m_1}{m_2} = \\dfrac{V_1}{V_2} = \\dfrac{15}{25} = \\dfrac{3}{5} \\).'
+      },
+      {
+        id: 10, part: 'part1', type: 'mcq',
+        question: 'Chia số \\( 60 \\) thành hai phần tỉ lệ thuận với \\( 2 \\) và \\( 3 \\). Hai phần đó lần lượt là:',
+        options: [
+          { key: 'A', text: '\\( 20 \\) và \\( 40 \\)' },
+          { key: 'B', text: '\\( 24 \\) và \\( 36 \\)' },
+          { key: 'C', text: '\\( 15 \\) và \\( 45 \\)' },
+          { key: 'D', text: '\\( 30 \\) và \\( 30 \\)' }
+        ],
+        answer: 'B',
+        answerText: 'B. 24 và 36',
+        explanation: 'Áp dụng dãy tỉ số bằng nhau: \\( \\dfrac{x}{2} = \\dfrac{y}{3} = \\dfrac{x+y}{2+3} = \\dfrac{60}{5} = 12 \\Rightarrow x = 24; y = 36 \\).'
+      },
+
+      // ==================== PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (CÂU 11 - 20) ====================
+      {
+        id: 11, part: 'part2', type: 'tf',
+        question: '(Bài 6.18a SGK) Theo bảng giá trị: \\( x = 5; 9; 15; 24 \\) và \\( y = 15; 27; 45; 72 \\), hai đại lượng \\( x \\) và \\( y \\) là hai đại lượng tỉ lệ thuận.',
+        answer: 'true',
+        answerText: 'Đúng',
+        explanation: 'Đúng vì tỉ số \\( \\dfrac{y}{x} \\) luôn không đổi: \\( \\dfrac{15}{5} = \\dfrac{27}{9} = \\dfrac{45}{15} = \\dfrac{72}{24} = 3 \\).'
+      },
+      {
+        id: 12, part: 'part2', type: 'tf',
+        question: '(Bài 6.18b SGK) Theo bảng giá trị: \\( x = 4; 8; 16; 25 \\) và \\( y = 8; 16; 30; 50 \\), hai đại lượng \\( x \\) và \\( y \\) là hai đại lượng tỉ lệ thuận.',
+        answer: 'false',
+        answerText: 'Sai',
+        explanation: 'Sai vì \\( \\dfrac{8}{4} = \\dfrac{16}{8} = 2 \\) nhưng \\( \\dfrac{30}{16} = 1,875 \\neq 2 \\).'
+      },
+      {
+        id: 13, part: 'part2', type: 'tf',
+        question: 'Cho hai đại lượng \\( A \\) và \\( B \\). Nếu \\( A \\) tăng \\( 3 \\) lần thì \\( B \\) giảm \\( 3 \\) lần. Khi đó \\( A \\) và \\( B \\) là hai đại lượng tỉ lệ thuận.',
+        answer: 'false',
+        answerText: 'Sai',
+        explanation: 'Sai vì với hai đại lượng tỉ lệ thuận cùng hệ số dương, đại lượng này tăng bao nhiêu lần thì đại lượng kia cũng phải tăng bấy nhiêu lần.'
+      },
+      {
+        id: 14, part: 'part2', type: 'tf',
+        question: 'Chu vi \\( P \\) của một hình vuông tỉ lệ thuận với độ dài cạnh \\( a \\) của hình vuông đó theo hệ số tỉ lệ là \\( 4 \\).',
+        answer: 'true',
+        answerText: 'Đúng',
+        explanation: 'Đúng vì công thức tính chu vi hình vuông là \\( P = 4a \\).'
+      },
+      {
+        id: 15, part: 'part2', type: 'tf',
+        question: 'Diện tích \\( S \\) của một hình vuông tỉ lệ thuận với độ dài cạnh \\( a \\) của hình vuông đó.',
+        answer: 'false',
+        answerText: 'Sai',
+        explanation: 'Sai vì \\( S = a^2 \\), tỉ số \\( \\dfrac{S}{a} = a \\) thay đổi khi độ dài cạnh \\( a \\) thay đổi.'
+      },
+      {
+        id: 16, part: 'part2', type: 'tf',
+        question: 'Nếu hai đại lượng \\( x \\) và \\( y \\) tỉ lệ thuận với nhau thì tỉ số hai giá trị bất kì của đại lượng này bằng tỉ số hai giá trị tương ứng của đại lượng kia: \\( \\dfrac{x_1}{x_2} = \\dfrac{y_1}{y_2} \\).',
+        answer: 'true',
+        answerText: 'Đúng',
+        explanation: 'Đúng theo tính chất của hai đại lượng tỉ lệ thuận trong SGK Toán 7 trang 12.'
+      },
+      {
+        id: 17, part: 'part2', type: 'tf',
+        question: 'Nếu đại lượng \\( y \\) tỉ lệ thuận với đại lượng \\( x \\) theo hệ số tỉ lệ \\( k = 1 \\) thì với mọi giá trị của \\( x \\), ta luôn có \\( y = x \\).',
+        answer: 'true',
+        answerText: 'Đúng',
+        explanation: 'Đúng vì thay \\( k = 1 \\) vào công thức \\( y = kx \\) ta được \\( y = 1 \\cdot x = x \\).'
+      },
+      {
+        id: 18, part: 'part2', type: 'tf',
+        question: 'Khối lượng \\( m \\) của một cuộn dây đồng đồng chất (có tiết diện đều) và chiều dài \\( l \\) của nó là hai đại lượng tỉ lệ thuận.',
+        answer: 'true',
+        answerText: 'Đúng',
+        explanation: 'Đúng vì dây đồng dài gấp bao nhiêu lần thì khối lượng của nó cũng nặng gấp bấy nhiêu lần.'
+      },
+      {
+        id: 19, part: 'part2', type: 'tf',
+        question: 'Nếu \\( y = -7x \\) thì \\( x \\) tỉ lệ thuận với \\( y \\) theo hệ số tỉ lệ là \\( 7 \\).',
+        answer: 'false',
+        answerText: 'Sai',
+        explanation: 'Sai vì từ \\( y = -7x \\) suy ra \\( x = -\\dfrac{1}{7}y \\), nên hệ số tỉ lệ của \\( x \\) đối với \\( y \\) phải là \\( -\\dfrac{1}{7} \\).'
+      },
+      {
+        id: 20, part: 'part2', type: 'tf',
+        question: 'Số tiền phải trả và số quyển vở cùng loại mua được (với đơn giá mỗi quyển không đổi) là hai đại lượng tỉ lệ thuận.',
+        answer: 'true',
+        answerText: 'Đúng',
+        explanation: 'Đúng vì \\( \\text{Số tiền} = \\text{Đơn giá} \\times \\text{Số quyển vở} \\).'
+      },
+
+      // ==================== PHẦN III: TRẮC NGHIỆM GHÉP CỘT (CÂU 21 - 30) ====================
+      {
+        id: 21, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 1):</strong> Biết \\( y \\) tỉ lệ thuận với \\( x \\) và khi \\( x = 3 \\) thì \\( y = -15 \\). Hãy ghép với hệ số tỉ lệ \\( a \\) của \\( y \\) đối với \\( x \\) ở Cột B:',
+        answer: 'A',
+        answerText: 'A. Hệ số tỉ lệ a = -5',
+        explanation: 'Ta có \\( a = \\dfrac{y}{x} = \\dfrac{-15}{3} = -5 \\). Ghép với phương án A.'
+      },
+      {
+        id: 22, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 2):</strong> Nếu \\( y = 4x \\) thì \\( x \\) tỉ lệ thuận với \\( y \\) theo hệ số tỉ lệ nào ở Cột B?',
+        answer: 'B',
+        answerText: 'B. Hệ số tỉ lệ k = 1/4',
+        explanation: 'Từ \\( y = 4x \\Rightarrow x = \\dfrac{1}{4}y \\). Hệ số tỉ lệ của \\( x \\) đối với \\( y \\) là \\( \\dfrac{1}{4} \\). Ghép với phương án B.'
+      },
+      {
+        id: 23, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 3):</strong> Cho hai đại lượng tỉ lệ thuận liên hệ bởi \\( y = 9x \\). Khi \\( x = 4 \\) thì giá trị của \\( y \\) tương ứng ở Cột B là:',
+        answer: 'C',
+        answerText: 'C. Giá trị y = 36',
+        explanation: 'Thay \\( x = 4 \\) vào \\( y = 9x \\) ta được \\( y = 9 \\cdot 4 = 36 \\). Ghép với phương án C.'
+      },
+      {
+        id: 24, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 4):</strong> Cho công thức \\( y = -5x \\). Khi \\( y = 20 \\) thì giá trị của \\( x \\) tương ứng ở Cột B là:',
+        answer: 'D',
+        answerText: 'D. Giá trị x = -4',
+        explanation: 'Từ \\( y = -5x \\Rightarrow x = \\dfrac{y}{-5} = \\dfrac{20}{-5} = -4 \\). Ghép với phương án D.'
+      },
+      {
+        id: 25, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 5):</strong> Công thức tính quãng đường \\( s\\text{ (km)} \\) của ô tô chuyển động đều với vận tốc \\( 60\\text{ km/h} \\) theo thời gian \\( t\\text{ (giờ)} \\) ở Cột B là:',
+        answer: 'E',
+        answerText: 'E. Công thức s = 60t',
+        explanation: 'Quãng đường \\( s = v \\cdot t = 60t \\). Ghép với phương án E.'
+      },
+      {
+        id: 26, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 6):</strong> Hai số \\( x, y \\) tỉ lệ thuận với \\( 2; 3 \\) và \\( x + y = 35 \\). Giá trị của \\( x \\) và \\( y \\) ở Cột B là:',
+        answer: 'F',
+        answerText: 'F. x = 14 và y = 21',
+        explanation: 'Ta có \\( \\dfrac{x}{2} = \\dfrac{y}{3} = \\dfrac{x+y}{2+3} = \\dfrac{35}{5} = 7 \\Rightarrow x = 14, y = 21 \\). Ghép với phương án F.'
+      },
+      {
+        id: 27, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 7):</strong> Biết \\( 10\\text{ cm}^3 \\) kim loại đồng chất nặng \\( 78\\text{ gam} \\). Khối lượng của \\( 25\\text{ cm}^3 \\) kim loại đó ở Cột B là:',
+        answer: 'G',
+        answerText: 'G. Nặng 195 gam',
+        explanation: 'Mỗi \\( 1\\text{ cm}^3 \\) nặng \\( 78 : 10 = 7,8\\text{ g} \\). Vậy \\( 25\\text{ cm}^3 \\) nặng \\( 7,8 \\times 25 = 195\\text{ gam} \\). Ghép với phương án G.'
+      },
+      {
+        id: 28, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 8 - Luyện tập 2 SGK):</strong> Cứ \\( 2\\text{ kg} \\) dâu tây thì cần \\( 3\\text{ kg} \\) đường. Vậy làm mứt từ \\( 100\\text{ gam} \\) dâu tây cần lượng đường ở Cột B là:',
+        answer: 'H',
+        answerText: 'H. Cần 150 gam đường',
+        explanation: 'Ta có \\( \\dfrac{x}{100} = \\dfrac{3}{2} = 1,5 \\Rightarrow x = 150\\text{ gam đường} \\). Ghép với phương án H.'
+      },
+      {
+        id: 29, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 9 - Luyện tập 3 SGK):</strong> Hai máy cày cùng năng suất cày xong hai cánh đồng hết \\( 3\\text{ giờ} \\) và \\( 5\\text{ giờ} \\). Tổng sản lượng là \\( 32\\text{ tấn thóc} \\). Cánh đồng thứ nhất thu được ở Cột B là:',
+        answer: 'I',
+        answerText: 'I. Thu hoạch 12 tấn thóc',
+        explanation: 'Gọi sản lượng hai cánh đồng là \\( x, y \\). Ta có \\( \\dfrac{x}{3} = \\dfrac{y}{5} = \\dfrac{32}{8} = 4 \\Rightarrow x = 12\\text{ tấn} \\). Ghép với phương án I.'
+      },
+      {
+        id: 30, part: 'part3', type: 'match',
+        question: '<strong>Cột A (Mệnh đề 10 - Bài 6.20 SGK):</strong> Một máy bơm nước vào bể được \\( 45\\text{ m}^3 \\) trong \\( 15\\text{ phút} \\). Thời gian để bơm được \\( 15\\text{ m}^3 \\) nước ở Cột B là:',
+        answer: 'J',
+        answerText: 'J. Mất 5 phút',
+        explanation: 'Mỗi phút máy bơm được \\( 45 : 15 = 3\\text{ m}^3 \\). Để bơm \\( 15\\text{ m}^3 \\) cần \\( 15 : 3 = 5\\text{ phút} \\). Ghép với phương án J.'
+      },
+
+      // ==================== PHẦN IV: TRẮC NGHIỆM TRẢ LỜI NGẮN (CÂU 31 - 40) ====================
+      {
+        id: 31, part: 'part4', type: 'short',
+        question: 'Cho đại lượng \\( y \\) tỉ lệ thuận với đại lượng \\( x \\) theo công thức \\( y = -8x \\). Hệ số tỉ lệ của \\( y \\) đối với \\( x \\) là bao nhiêu?',
+        placeholder: 'Nhập số...',
+        acceptedValues: [-8],
+        answerText: '-8',
+        explanation: 'Trong công thức \\( y = -8x \\), hệ số tỉ lệ của \\( y \\) đối với \\( x \\) là \\( a = -8 \\).'
+      },
+      {
+        id: 32, part: 'part4', type: 'short',
+        question: 'Cho \\( x \\) và \\( y \\) là hai đại lượng tỉ lệ thuận. Biết khi \\( x = 6 \\) thì \\( y = 42 \\). Tìm hệ số tỉ lệ \\( a \\) của \\( y \\) đối với \\( x \\).',
+        placeholder: 'Nhập a = ...',
+        acceptedValues: [7],
+        answerText: '7',
+        explanation: 'Hệ số tỉ lệ \\( a = \\dfrac{y}{x} = \\dfrac{42}{6} = 7 \\).'
+      },
+      {
+        id: 33, part: 'part4', type: 'short',
+        question: 'Cho \\( y \\) tỉ lệ thuận với \\( x \\) theo hệ số tỉ lệ \\( a = 2,5 \\). Khi \\( x = 8 \\) thì giá trị của \\( y \\) bằng bao nhiêu?',
+        placeholder: 'Nhập y = ...',
+        acceptedValues: [20],
+        answerText: '20',
+        explanation: 'Ta có \\( y = 2,5 \\cdot x = 2,5 \\cdot 8 = 20 \\).'
+      },
+      {
+        id: 34, part: 'part4', type: 'short',
+        question: 'Cho \\( x \\) và \\( y \\) là hai đại lượng tỉ lệ thuận. Biết khi \\( x = 4 \\) thì \\( y = -12 \\). Hỏi khi \\( y = 27 \\) thì giá trị của \\( x \\) bằng bao nhiêu?',
+        placeholder: 'Nhập x = ...',
+        acceptedValues: [-9],
+        answerText: '-9',
+        explanation: 'Hệ số tỉ lệ \\( a = \\dfrac{-12}{4} = -3 \\Rightarrow y = -3x \\). Khi \\( y = 27 \\) thì \\( x = 27 : (-3) = -9 \\).'
+      },
+      {
+        id: 35, part: 'part4', type: 'short',
+        question: 'Một người đi xe đạp với vận tốc không đổi \\( 15\\text{ km/h} \\). Hỏi trong \\( 3\\text{ giờ} \\) người đó đi được quãng đường bao nhiêu km?',
+        placeholder: '... km',
+        acceptedValues: [45],
+        answerText: '45 km',
+        explanation: 'Quãng đường \\( s = v \\cdot t = 15 \\times 3 = 45\\text{ (km)} \\).'
+      },
+      {
+        id: 36, part: 'part4', type: 'short',
+        question: 'Cứ \\( 100\\text{ kg} \\) thóc thì xay xát được \\( 65\\text{ kg} \\) gạo. Hỏi \\( 300\\text{ kg} \\) thóc cùng loại thì cho bao nhiêu kilôgam gạo?',
+        placeholder: '... kg gạo',
+        acceptedValues: [195],
+        answerText: '195 kg',
+        explanation: 'Khối lượng thóc gấp lên \\( 300 : 100 = 3 \\) lần nên lượng gạo thu được là \\( 65 \\times 3 = 195\\text{ (kg)} \\).'
+      },
+      {
+        id: 37, part: 'part4', type: 'short',
+        question: 'Mua \\( 5 \\) quyển vở cùng loại hết \\( 40\\text{ nghìn đồng} \\). Hỏi mua \\( 8 \\) quyển vở như thế hết bao nhiêu nghìn đồng? (Nhập số nghìn đồng, ví dụ: 64)',
+        placeholder: '... nghìn đồng',
+        acceptedValues: [64, 64000],
+        answerText: '64 (nghìn đồng)',
+        explanation: 'Giá 1 quyển vở là \\( 40 : 5 = 8 \\) (nghìn đồng). Mua 8 quyển hết \\( 8 \\times 8 = 64 \\) (nghìn đồng).'
+      },
+      {
+        id: 38, part: 'part4', type: 'short',
+        question: 'Biết hai số \\( x \\) và \\( y \\) tỉ lệ thuận với \\( 3 \\) và \\( 5 \\), đồng thời \\( x + y = 32 \\). Tìm giá trị của \\( x \\).',
+        placeholder: 'Nhập x = ...',
+        acceptedValues: [12],
+        answerText: '12',
+        explanation: 'Ta có \\( \\dfrac{x}{3} = \\dfrac{y}{5} = \\dfrac{x+y}{3+5} = \\dfrac{32}{8} = 4 \\Rightarrow x = 3 \\times 4 = 12 \\).'
+      },
+      {
+        id: 39, part: 'part4', type: 'short',
+        question: 'Một máy in trong \\( 4\\text{ phút} \\) in được \\( 120 \\) trang giấy. Hỏi trong \\( 10\\text{ phút} \\) máy in đó in được bao nhiêu trang giấy (năng suất không đổi)?',
+        placeholder: '... trang',
+        acceptedValues: [300],
+        answerText: '300 trang',
+        explanation: 'Mỗi phút máy in được \\( 120 : 4 = 30 \\) trang. Trong 10 phút máy in được \\( 30 \\times 10 = 300 \\) trang.'
+      },
+      {
+        id: 40, part: 'part4', type: 'short',
+        question: 'Cho biết \\( y \\) tỉ lệ thuận với \\( x \\) theo hệ số tỉ lệ \\( a = 4 \\), còn \\( x \\) tỉ lệ thuận với \\( z \\) theo hệ số tỉ lệ \\( b = 1,5 \\). Hỏi \\( y \\) tỉ lệ thuận với \\( z \\) theo hệ số tỉ lệ bằng bao nhiêu?',
+        placeholder: 'Nhập hệ số...',
+        acceptedValues: [6],
+        answerText: '6',
+        explanation: 'Hệ số tỉ lệ của \\( y \\) đối với \\( z \\) là \\( a \\cdot b = 4 \\times 1,5 = 6 \\).'
+      },
+
+      // ==================== PHẦN V: TỰ LUẬN (CÂU 41 - 50) ====================
+      {
+        id: 41, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 1:</strong> Cho biết hai đại lượng \\( x \\) và \\( y \\) tỉ lệ thuận với nhau và khi \\( x = 5 \\) thì \\( y = -20 \\).<br>a) Tìm hệ số tỉ lệ \\( a \\) của \\( y \\) đối với \\( x \\) và biểu diễn \\( y \\) theo \\( x \\).<br>b) Tính giá trị của \\( y \\) khi \\( x = -7 \\).',
+        finalLabel: 'Đáp số cuối cùng (Giá trị của y khi x = -7):',
+        placeholder: 'Nhập y = ...',
+        acceptedValues: [28],
+        answerText: 'y = 28 (với a = -4, công thức y = -4x)',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Vì \\( x \\) và \\( y \\) tỉ lệ thuận nên \\( y = ax \\). Thay \\( x = 5, y = -20 \\) ta có \\( a = \\dfrac{-20}{5} = -4 \\). Công thức: \\( y = -4x \\).<br>• Khi \\( x = -7 \\) thì \\( y = (-4) \\cdot (-7) = 28 \\).'
+      },
+      {
+        id: 42, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 2 (Dựa theo Bài 6.17 SGK):</strong> Cho hai đại lượng tỉ lệ thuận \\( x \\) và \\( y \\). Biết khi \\( x = 2 \\) thì \\( y = -6 \\). Hãy trình bày các bước tìm công thức liên hệ giữa \\( x, y \\) và tìm giá trị của \\( x \\) khi \\( y = 18 \\).',
+        finalLabel: 'Đáp số cuối cùng (Giá trị của x khi y = 18):',
+        placeholder: 'Nhập x = ...',
+        acceptedValues: [-6],
+        answerText: 'x = -6 (với hệ số tỉ lệ a = -3)',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Hệ số tỉ lệ của \\( y \\) đối với \\( x \\) là \\( a = \\dfrac{y}{x} = \\dfrac{-6}{2} = -3 \\Rightarrow y = -3x \\).<br>• Khi \\( y = 18 \\) thì \\( x = \\dfrac{18}{-3} = -6 \\).'
+      },
+      {
+        id: 43, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 3 (Bài 6.21 SGK trang 14):</strong> Trong một thí nghiệm khoa học, bạn Thảo chia \\( 1,5\\text{ lít} \\) hoá chất vào ba chiếc lọ có dung tích tỉ lệ thuận với \\( 4; 5; 6 \\). Hãy trình bày lời giải và tính lượng hoá chất trong chiếc lọ lớn nhất (tỉ lệ với \\( 6 \\)).',
+        finalLabel: 'Đáp số cuối cùng (Lượng hoá chất ở lọ lớn nhất, đơn vị lít):',
+        placeholder: '... lít',
+        acceptedValues: [0.6],
+        answerText: '0,6 lít (Ba lọ lần lượt là 0,4 lít; 0,5 lít; 0,6 lít)',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Gọi lượng hoá chất ở 3 lọ là \\( x, y, z \\) (lít). Theo đề bài: \\( \\dfrac{x}{4} = \\dfrac{y}{5} = \\dfrac{z}{6} \\) và \\( x + y + z = 1,5 \\).<br>• Áp dụng tính chất dãy tỉ số bằng nhau: \\( \\dfrac{x}{4} = \\dfrac{y}{5} = \\dfrac{z}{6} = \\dfrac{1,5}{4+5+6} = \\dfrac{1,5}{15} = 0,1 \\).<br>• Vậy lọ lớn nhất chứa \\( z = 6 \\times 0,1 = 0,6\\text{ (lít)} \\).'
+      },
+      {
+        id: 44, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 4 (Bài toán trồng cây):</strong> Ba lớp 7A, 7B, 7C cùng tham gia trồng được tổng cộng \\( 120 \\) cây xanh. Biết số cây trồng được của ba lớp lần lượt tỉ lệ thuận với \\( 3; 4; 5 \\). Hãy trình bày lời giải và tính số cây lớp 7C trồng được.',
+        finalLabel: 'Đáp số cuối cùng (Số cây lớp 7C trồng được):',
+        placeholder: '... cây',
+        acceptedValues: [50],
+        answerText: '50 cây (7A: 30 cây, 7B: 40 cây, 7C: 50 cây)',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Gọi số cây ba lớp 7A, 7B, 7C trồng được là \\( x, y, z \\) (\\( x,y,z \\in \\mathbb{N}^* \\)).<br>• Áp dụng dãy tỉ số bằng nhau: \\( \\dfrac{x}{3} = \\dfrac{y}{4} = \\dfrac{z}{5} = \\dfrac{x+y+z}{3+4+5} = \\dfrac{120}{12} = 10 \\).<br>• Suy ra \\( x = 30; y = 40; z = 50 \\). Vậy lớp 7C trồng được \\( 50 \\) cây.'
+      },
+      {
+        id: 45, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 5 (Ba góc của tam giác):</strong> Số đo ba góc \\( \\widehat{A}, \\widehat{B}, \\widehat{C} \\) của tam giác \\( ABC \\) lần lượt tỉ lệ thuận với \\( 2; 3; 4 \\). Hãy trình bày lời giải và tính số đo góc lớn nhất \\( \\widehat{C} \\) (đơn vị: độ).',
+        finalLabel: 'Đáp số cuối cùng (Số đo góc C, đơn vị độ):',
+        placeholder: '... độ',
+        acceptedValues: [80],
+        answerText: '80° (Góc A = 40°, Góc B = 60°, Góc C = 80°)',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Trong \\( \\triangle ABC \\), tổng ba góc \\( \\widehat{A} + \\widehat{B} + \\widehat{C} = 180^\\circ \\).<br>• Áp dụng dãy tỉ số bằng nhau: \\( \\dfrac{\\widehat{A}}{2} = \\dfrac{\\widehat{B}}{3} = \\dfrac{\\widehat{C}}{4} = \\dfrac{180^\\circ}{2+3+4} = 20^\\circ \\).<br>• Vậy góc lớn nhất \\( \\widehat{C} = 4 \\times 20^\\circ = 80^\\circ \\).'
+      },
+      {
+        id: 46, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 6 (Khối lượng dây thép):</strong> Một cuộn dây thép dài \\( 15\\text{ m} \\) nặng \\( 450\\text{ gam} \\). Hỏi một cuộn dây thép cùng loại dài \\( 25\\text{ m} \\) thì nặng bao nhiêu gam? Hãy trình bày lời giải chi tiết.',
+        finalLabel: 'Đáp số cuối cùng (Khối lượng cuộn dây 25m, đơn vị gam):',
+        placeholder: '... gam',
+        acceptedValues: [750],
+        answerText: '750 gam',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Khối lượng \\( m \\) tỉ lệ thuận với chiều dài \\( l \\) nên \\( \\dfrac{m_1}{l_1} = \\dfrac{m_2}{l_2} \\).<br>• Thay số: \\( \\dfrac{450}{15} = \\dfrac{m_2}{25} \\Rightarrow 30 = \\dfrac{m_2}{25} \\Rightarrow m_2 = 30 \\times 25 = 750\\text{ (gam)} \\).'
+      },
+      {
+        id: 47, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 7 (Quyên góp sách thư viện):</strong> Hai lớp 7A và 7B quyên góp sách cho thư viện. Biết số sách quyên góp của lớp 7A và 7B tỉ lệ thuận với \\( 5 \\) và \\( 7 \\), và lớp 7B quyên góp nhiều hơn lớp 7A là \\( 24 \\) quyển sách. Hãy trình bày lời giải và tính <strong>tổng số sách</strong> cả hai lớp đã quyên góp.',
+        finalLabel: 'Đáp số cuối cùng (Tổng số sách cả hai lớp):',
+        placeholder: '... quyển',
+        acceptedValues: [144],
+        answerText: '144 quyển sách (Lớp 7A: 60 quyển, Lớp 7B: 84 quyển)',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Gọi số sách của lớp 7A và 7B là \\( x, y \\) (quyển). Ta có \\( \\dfrac{x}{5} = \\dfrac{y}{7} \\) và \\( y - x = 24 \\).<br>• Áp dụng tính chất dãy tỉ số bằng nhau: \\( \\dfrac{x}{5} = \\dfrac{y}{7} = \\dfrac{y-x}{7-5} = \\dfrac{24}{2} = 12 \\).<br>• Suy ra \\( x = 60, y = 84 \\). Tổng số sách hai lớp quyên góp là \\( 60 + 84 = 144 \\) quyển.'
+      },
+      {
+        id: 48, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 8 (Chu vi tam giác):</strong> Độ dài ba cạnh của một tam giác tỉ lệ thuận với \\( 3; 4; 5 \\) và chu vi của tam giác đó là \\( 60\\text{ cm} \\). Hãy trình bày lời giải và tìm độ dài <strong>cạnh lớn nhất</strong> của tam giác đó (đơn vị: cm).',
+        finalLabel: 'Đáp số cuối cùng (Độ dài cạnh lớn nhất, đơn vị cm):',
+        placeholder: '... cm',
+        acceptedValues: [25],
+        answerText: '25 cm (Ba cạnh lần lượt là 15 cm; 20 cm; 25 cm)',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Gọi độ dài ba cạnh là \\( a, b, c\\text{ (cm)} \\). Ta có \\( \\dfrac{a}{3} = \\dfrac{b}{4} = \\dfrac{c}{5} = \\dfrac{a+b+c}{3+4+5} = \\dfrac{60}{12} = 5 \\).<br>• Suy ra \\( a = 15\\text{ cm}; b = 20\\text{ cm}; c = 25\\text{ cm} \\). Cạnh lớn nhất dài \\( 25\\text{ cm} \\).'
+      },
+      {
+        id: 49, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 9 (Năng suất dây chuyền):</strong> Một dây chuyền sản xuất trong \\( 3\\text{ giờ} \\) làm được \\( 450 \\) hộp khẩu trang. Hỏi nếu làm việc với cùng năng suất đó trong \\( 8\\text{ giờ} \\) thì dây chuyền sản xuất được bao nhiêu hộp khẩu trang?',
+        finalLabel: 'Đáp số cuối cùng (Số hộp khẩu trang làm trong 8 giờ):',
+        placeholder: '... hộp',
+        acceptedValues: [1200],
+        answerText: '1200 hộp khẩu trang',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Số hộp khẩu trang tỉ lệ thuận với thời gian làm việc. Trong 1 giờ dây chuyền làm được \\( 450 : 3 = 150 \\) (hộp).<br>• Trong 8 giờ dây chuyền sản xuất được \\( 150 \\times 8 = 1200 \\) (hộp khẩu trang).'
+      },
+      {
+        id: 50, part: 'part5', type: 'essay',
+        question: '<strong>Bài tự luận 10 (Bài toán bột sắn dây):</strong> Cứ \\( 4,5\\text{ kg} \\) củ sắn dây tươi thì ông An làm được \\( 1\\text{ kg} \\) bột sắn dây. Hỏi nếu ông An dùng \\( 450\\text{ kg} \\) củ sắn dây tươi thì thu được bao nhiêu kilôgam bột sắn dây? Hãy trình bày lời giải chi tiết.',
+        finalLabel: 'Đáp số cuối cùng (Số kg bột sắn dây thu được):',
+        placeholder: '... kg',
+        acceptedValues: [100],
+        answerText: '100 kg bột sắn dây',
+        explanation: '<strong>Lời giải chuẩn:</strong><br>• Khối lượng bột sắn dây \\( y\\text{ (kg)} \\) tỉ lệ thuận với khối lượng củ sắn tươi \\( x\\text{ (kg)} \\) theo công thức \\( x = 4,5y \\).<br>• Khi \\( x = 450\\text{ kg} \\) thì \\( y = 450 : 4,5 = 100\\text{ (kg bột sắn dây)} \\).'
+      }
+    ];
+
+    const PART_HEADERS = {
+      part1: {
+        title: 'PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN (Câu 1 – Câu 10)',
+        sub: '10 câu × 2 điểm = 20 điểm (Chọn 1 đáp án đúng A, B, C hoặc D)'
+      },
+      part2: {
+        title: 'PHẦN II. TRẮC NGHIỆM ĐÚNG / SAI (Câu 11 – Câu 20)',
+        sub: '10 câu × 2 điểm = 20 điểm (Chọn Đúng hoặc Sai cho mỗi nhận định)'
+      },
+      part3: {
+        title: 'PHẦN III. TRẮC NGHIỆM GHÉP CỘT (Câu 21 – Câu 30)',
+        sub: '10 câu × 2 điểm = 20 điểm (Ghép mỗi mệnh đề ở Cột A với kết quả tương ứng A–J ở Cột B)'
+      },
+      part4: {
+        title: 'PHẦN IV. TRẮC NGHIỆM TRẢ LỜI NGẮN (Câu 31 – Câu 40)',
+        sub: '10 câu × 2 điểm = 20 điểm (Điền kết quả số vào ô trống)'
+      },
+      part5: {
+        title: 'PHẦN V. TỰ LUẬN (Câu 41 – Câu 50)',
+        sub: '10 câu × 2 điểm = 20 điểm (Trình bày lời giải và nhập đáp số cuối cùng để chấm điểm tại chỗ)'
+      }
+    };
+
+    // Lưu trạng thái lựa chọn và điểm số của từng câu (1..50)
+    const examUserAnswers = {};
+    const examQuestionScores = {}; // qId -> 0 hoặc 2
+    const examQuestionGraded = {}; // qId -> true/false
+
+    function renderExamQuestions() {
+      const container = document.getElementById('exam-questions-container');
+      if (!container) return;
+
+      let html = '';
+      let currentPart = '';
+
+      EXAM_QUESTIONS.forEach(q => {
+        if (q.part !== currentPart) {
+          currentPart = q.part;
+          const pInfo = PART_HEADERS[currentPart];
+          html += `
+            <div class="part-section-block" data-part="${currentPart}">
+              <div class="part-section-title">
+                <span>${pInfo.title}</span>
+                <span style="font-size: 14px; font-weight: 700; color: var(--primary-dark);">${pInfo.sub}</span>
+              </div>
+          `;
+
+          // Nếu là Phần III (Ghép cột), hiển thị bảng tham chiếu Cột B (A -> J)
+          if (currentPart === 'part3') {
+            html += `
+              <div class="golden-box" style="margin-bottom: 16px;">
+                <div class="golden-title">📌 BẢNG PHƯƠNG ÁN CỘT B (Dùng để ghép cho Câu 21 đến Câu 30):</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px; margin-top: 8px; font-weight: 700; color: #1e293b;">
+                  ${MATCH_COLUMN_B_OPTIONS.map(o => `<div style="background:#fff; padding:6px 10px; border-radius:8px; border:1px solid #fcd34d;">${o.text}</div>`).join('')}
+                </div>
+              </div>
+            `;
+          }
+        }
+
+        html += `
+          <div class="q-card" id="q-card-${q.id}" data-part="${q.part}">
+            <div class="q-header">
+              <span class="q-badge">Câu ${q.id} / 50</span>
+              <span class="q-point-badge" id="q-point-badge-${q.id}">Chưa chấm (0 / 2 điểm)</span>
+            </div>
+            <div style="font-size: 17px; margin-bottom: 12px;">${q.question}</div>
+        `;
+
+        if (q.type === 'mcq') {
+          html += `<div class="mcq-list" id="q-input-wrap-${q.id}">`;
+          q.options.forEach(opt => {
+            html += `
+              <button type="button" class="mcq-option" data-opt="${opt.key}" onclick="selectExamOption(${q.id}, '${opt.key}', this)">
+                <span class="opt-letter">${opt.key}</span> <span>${opt.text}</span>
+              </button>
+            `;
+          });
+          html += `</div>`;
+        } else if (q.type === 'tf') {
+          html += `
+            <div class="mcq-list" id="q-input-wrap-${q.id}" style="flex-direction: row; flex-wrap: wrap;">
+              <button type="button" class="mcq-option" style="flex: 1; min-width: 180px;" data-opt="true" onclick="selectExamOption(${q.id}, 'true', this)">
+                <span class="opt-letter">Đ</span> <span>Đúng</span>
+              </button>
+              <button type="button" class="mcq-option" style="flex: 1; min-width: 180px;" data-opt="false" onclick="selectExamOption(${q.id}, 'false', this)">
+                <span class="opt-letter">S</span> <span>Sai</span>
+              </button>
+            </div>
+          `;
+        } else if (q.type === 'match') {
+          html += `
+            <div style="margin-top: 8px;">
+              <select class="match-select" id="q-match-${q.id}" onchange="examUserAnswers[${q.id}] = this.value">
+                <option value="">-- Chọn phương án ghép ở Cột B (A – J) --</option>
+                ${MATCH_COLUMN_B_OPTIONS.map(o => `<option value="${o.key}">${o.text}</option>`).join('')}
+              </select>
+            </div>
+          `;
+        } else if (q.type === 'short') {
+          html += `
+            <div style="margin-top: 8px;">
+              <input type="text" class="table-input" id="q-short-${q.id}" placeholder="${q.placeholder}" style="width: 220px; text-align: left; padding-left: 14px;" oninput="examUserAnswers[${q.id}] = this.value">
+            </div>
+          `;
+        } else if (q.type === 'essay') {
+          html += `
+            <div style="margin-top: 10px;">
+              <label style="font-weight: 800; font-size: 14px; color: var(--primary-dark); display: block; margin-bottom: 6px;">
+                ✍️ Trình bày các bước giải tự luận của em:
+              </label>
+              <textarea class="essay-textarea" id="q-essay-work-${q.id}" placeholder="Trình bày lời giải chi tiết từng bước tại đây..."></textarea>
+              <div style="margin-top: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <label style="font-weight: 800; font-size: 15px; color: #0f172a;">🎯 ${q.finalLabel}</label>
+                <input type="text" class="table-input" id="q-essay-ans-${q.id}" placeholder="${q.placeholder}" style="width: 180px;">
+              </div>
+            </div>
+          `;
+        }
+
+        html += `
+            <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
+              <button type="button" class="btn btn-primary btn-sm" onclick="gradeSingleQuestion(${q.id})">
+                ✅ Nộp & Chấm Câu ${q.id} (2 điểm)
+              </button>
+            </div>
+            <div class="feedback-box" id="exam-fb-${q.id}"></div>
+          </div>
+        `;
+
+        // Đóng thẻ part-section-block ở câu cuối mỗi phần (10, 20, 30, 40, 50)
+        if (q.id % 10 === 0) {
+          html += `</div>`;
+        }
+      });
+
+      container.innerHTML = html;
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([container]).catch(() => {});
+      }
+    }
+
+    function filterExamPart(partKey, btn) {
+      document.querySelectorAll('.part-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      document.querySelectorAll('.part-section-block').forEach(block => {
+        if (partKey === 'all' || block.getAttribute('data-part') === partKey) {
+          block.style.display = 'block';
+        } else {
+          block.style.display = 'none';
+        }
+      });
+    }
+
+    function selectExamOption(qId, optKey, btn) {
+      examUserAnswers[qId] = optKey;
+      const wrap = document.getElementById(`q-input-wrap-${qId}`);
+      if (wrap) {
+        wrap.querySelectorAll('.mcq-option').forEach(b => b.classList.remove('selected', 'correct', 'wrong'));
+      }
+      btn.classList.add('selected');
+    }
+
+    function getRankFromScore(totalScore) {
+      if (totalScore >= 90) return '🏆 Xuất Sắc (Bậc Thầy Tỉ Lệ Thuận)';
+      if (totalScore >= 80) return '🌟 Giỏi (Nắm Rất Vững Kiến Thức)';
+      if (totalScore >= 65) return '👍 Khá (Hiểu Bản Chất Toán 7)';
+      if (totalScore >= 50) return '✔️ Đạt Yêu Cầu (Cần Rèn Thêm)';
+      return '💪 Cần Cố Gắng (Ôn Lại Lý Thuyết)';
+    }
+
+    function computeAllCategoryScores() {
+      let scoreMCQ = 0;   // Câu 1 - 10
+      let scoreTF = 0;    // Câu 11 - 20
+      let scoreMatch = 0; // Câu 21 - 30
+      let scoreShort = 0; // Câu 31 - 40
+      let scoreEssay = 0; // Câu 41 - 50
+      let correctCount = 0;
+      let gradedCount = 0;
+
+      EXAM_QUESTIONS.forEach(q => {
+        const pts = examQuestionScores[q.id] || 0;
+        if (examQuestionGraded[q.id]) gradedCount++;
+        if (pts === 2) correctCount++;
+
+        if (q.part === 'part1') scoreMCQ += pts;
+        else if (q.part === 'part2') scoreTF += pts;
+        else if (q.part === 'part3') scoreMatch += pts;
+        else if (q.part === 'part4') scoreShort += pts;
+        else if (q.part === 'part5') scoreEssay += pts;
+      });
+
+      const totalQuizScore = scoreMCQ + scoreTF + scoreMatch + scoreShort; // tối đa 80
+      const totalScore = totalQuizScore + scoreEssay; // tối đa 100
+      const rank = getRankFromScore(totalScore);
+
+      return {
+        scoreMCQ,
+        scoreTF,
+        scoreMatch,
+        scoreShort,
+        totalQuizScore,
+        scoreEssay,
+        totalScore,
+        correctCount,
+        gradedCount,
+        rank
+      };
+    }
+
+    function updateLiveScoreBoard() {
+      const stats = computeAllCategoryScores();
+
+      document.getElementById('live-score-mcq').textContent = `${stats.scoreMCQ} / 20 đ`;
+      document.getElementById('live-score-tf').textContent = `${stats.scoreTF} / 20 đ`;
+      document.getElementById('live-score-match').textContent = `${stats.scoreMatch} / 20 đ`;
+      document.getElementById('live-score-short').textContent = `${stats.scoreShort} / 20 đ`;
+      document.getElementById('live-score-quiz-total').textContent = `${stats.totalQuizScore} / 80 đ`;
+      document.getElementById('live-score-essay').textContent = `${stats.scoreEssay} / 20 đ`;
+      document.getElementById('live-score-grand-total').textContent = `${stats.totalScore} / 100 đ`;
+      document.getElementById('live-rank-label').textContent = stats.rank;
+
+      document.getElementById('game-live-badge').textContent =
+        `Điểm hiện tại: ${stats.totalScore}/100 đ (${stats.correctCount}/50 câu đúng)`;
+
+      // Cập nhật bảng tổng hợp ở phần Bảng Vàng cuối bài
+      document.getElementById('sum-student-name').textContent = currentStudent.name || 'Học sinh';
+      document.getElementById('sum-student-class').textContent = currentStudent.className || '--';
+      document.getElementById('sum-score-mcq').textContent = `${stats.scoreMCQ} / 20`;
+      document.getElementById('sum-score-tf').textContent = `${stats.scoreTF} / 20`;
+      document.getElementById('sum-score-match').textContent = `${stats.scoreMatch} / 20`;
+      document.getElementById('sum-score-short').textContent = `${stats.scoreShort} / 20`;
+      document.getElementById('sum-score-quiz').textContent = `${stats.totalQuizScore} / 80`;
+      document.getElementById('sum-score-essay').textContent = `${stats.scoreEssay} / 20`;
+      document.getElementById('sum-score-total').textContent = `${stats.totalScore} / 100`;
+      document.getElementById('sum-rank').textContent = stats.rank;
+
+      return stats;
+    }
+
+    // Chấm điểm 1 câu hỏi (silent = true khi chấm hàng loạt 50 câu)
+    function gradeSingleQuestion(qId, silent = false) {
+      const q = EXAM_QUESTIONS.find(item => item.id === qId);
+      if (!q) return false;
+
+      let isCorrect = false;
+      let essayNote = '';
+
+      if (q.type === 'mcq' || q.type === 'tf') {
+        const userChoice = examUserAnswers[q.id];
+        isCorrect = userChoice === q.answer;
+        const wrap = document.getElementById(`q-input-wrap-${q.id}`);
+        if (wrap) {
+          wrap.querySelectorAll('.mcq-option').forEach(btn => {
+            const opt = btn.getAttribute('data-opt');
+            btn.classList.remove('correct', 'wrong');
+            if (opt === q.answer) {
+              btn.classList.add('correct');
+            } else if (opt === userChoice && !isCorrect) {
+              btn.classList.add('wrong');
+            }
+          });
+        }
+      } else if (q.type === 'match') {
+        const selEl = document.getElementById(`q-match-${q.id}`);
+        const userChoice = selEl ? selEl.value : '';
+        examUserAnswers[q.id] = userChoice;
+        isCorrect = userChoice === q.answer;
+        if (selEl) {
+          selEl.style.borderColor = isCorrect ? '#10b981' : '#ef4444';
+          selEl.style.background = isCorrect ? '#ecfdf5' : '#fef2f2';
+        }
+      } else if (q.type === 'short') {
+        const inpEl = document.getElementById(`q-short-${q.id}`);
+        const numVal = inpEl ? parseVNNumber(inpEl.value) : NaN;
+        isCorrect = q.acceptedValues.some(v => Math.abs(numVal - v) < 1e-6);
+        if (inpEl) {
+          inpEl.className = 'table-input ' + (isCorrect ? 'correct' : 'wrong');
+        }
+      } else if (q.type === 'essay') {
+        const workEl = document.getElementById(`q-essay-work-${q.id}`);
+        const ansEl = document.getElementById(`q-essay-ans-${q.id}`);
+        const workText = workEl ? workEl.value.trim() : '';
+        const numVal = ansEl ? parseVNNumber(ansEl.value) : NaN;
+        isCorrect = q.acceptedValues.some(v => Math.abs(numVal - v) < 1e-6);
+        if (ansEl) {
+          ansEl.className = 'table-input ' + (isCorrect ? 'correct' : 'wrong');
+        }
+        if (workText.length >= 10) {
+          essayNote = '📝 <em>Nhận xét bài trình bày:</em> Em đã có trình bày các bước giải tự luận rõ ràng. Hãy đối chiếu thêm với lời giải chuẩn bên dưới nhé!<br>';
+        } else {
+          essayNote = '📝 <em>Lưu ý trình bày:</em> Em nên viết đầy đủ các bước lập luận tự luận vào ô trình bày để rèn kỹ năng làm bài thi nhé!<br>';
+        }
+      }
+
+      const points = isCorrect ? 2 : 0;
+      examQuestionScores[q.id] = points;
+      examQuestionGraded[q.id] = true;
+
+      // Cập nhật thẻ câu hỏi & badge điểm
+      const cardEl = document.getElementById(`q-card-${q.id}`);
+      const badgeEl = document.getElementById(`q-point-badge-${q.id}`);
+      if (cardEl) {
+        cardEl.classList.toggle('graded-ok', isCorrect);
+        cardEl.classList.toggle('graded-err', !isCorrect);
+      }
+      if (badgeEl) {
+        badgeEl.className = 'q-point-badge ' + (isCorrect ? 'ok' : 'err');
+        badgeEl.textContent = isCorrect ? '✔️ Đúng (+2 / 2 điểm)' : '❌ Sai (0 / 2 điểm)';
+      }
+
+      // Cập nhật bảng điểm trực tiếp & lấy xếp hạng hiện tại
+      const stats = updateLiveScoreBoard();
+
+      const commentText = isCorrect
+        ? '🌟 <strong>Nhận xét:</strong> Xuất sắc! Em đã nắm vững kiến thức và trả lời hoàn toàn chính xác câu hỏi này.'
+        : '💡 <strong>Nhận xét:</strong> Chưa chính xác rồi! Em hãy xem kỹ đáp án đúng và hướng dẫn giải chi tiết bên dưới để rút kinh nghiệm nhé.';
+
+      const fbHtml = `
+        <div style="width: 100%;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+            <span>${commentText}</span>
+            <span style="background: #fff; padding: 4px 10px; border-radius: 999px; font-weight: 900; border: 1px solid currentColor;">
+              Điểm câu ${q.id}: ${points}/2 đ • Tổng: ${stats.totalScore}/100 đ • Hạng: ${stats.rank}
+            </span>
+          </div>
+          ${essayNote}
+          <div style="margin-top: 4px;">🎯 <strong>Đáp án đúng:</strong> <code>${q.answerText}</code></div>
+          <div style="margin-top: 4px;">📘 <strong>Giải thích & Hướng dẫn chấm:</strong> ${q.explanation}</div>
+        </div>
+      `;
+
+      showFeedback(`exam-fb-${q.id}`, isCorrect ? 'success' : 'error', fbHtml);
+
+      if (!silent) {
+        playSound(isCorrect ? 'success' : 'error');
+        const fbEl = document.getElementById(`exam-fb-${q.id}`);
+        if (fbEl && window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise([fbEl]).catch(() => {});
+        }
+      }
+
+      return isCorrect;
+    }
+
+    // Nộp toàn bộ 50 câu hỏi, chấm điểm, xếp hạng & gửi lên Google Apps Script
+    function submitGameChallenge() {
+      EXAM_QUESTIONS.forEach(q => {
+        gradeSingleQuestion(q.id, true);
+      });
+
+      const stats = updateLiveScoreBoard();
+      completedTasks.task7 = true;
+      updateProgress();
+      playSound(stats.totalScore >= 50 ? 'success' : 'error');
+
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        const container = document.getElementById('exam-questions-container');
+        if (container) window.MathJax.typesetPromise([container]).catch(() => {});
+      }
+
+      const titleEl = document.getElementById('result-score-title');
+      const msgEl = document.getElementById('result-message');
+      const trophyEl = document.getElementById('result-trophy');
+
+      const studentLabel = currentStudent.name
+        ? `${currentStudent.name} (Lớp ${currentStudent.className})`
+        : 'Học sinh';
+
+      titleEl.textContent =
+        `Kết Quả Của ${studentLabel}: ${stats.totalScore} / 100 Điểm (${stats.correctCount}/50 câu đúng)`;
+
+      if (stats.totalScore >= 90) {
+        trophyEl.textContent = '👑';
+        msgEl.textContent = `Chúc mừng ${studentLabel}! Em đạt danh hiệu "${stats.rank}" với ${stats.totalScore}/100 điểm (Trắc nghiệm: ${stats.totalQuizScore}/80đ, Tự luận: ${stats.scoreEssay}/20đ)!`;
+      } else if (stats.totalScore >= 65) {
+        trophyEl.textContent = '🌟';
+        msgEl.textContent = `Rất đáng khen ${studentLabel}! Em đạt xếp hạng "${stats.rank}" với ${stats.totalScore}/100 điểm (Trắc nghiệm: ${stats.totalQuizScore}/80đ, Tự luận: ${stats.scoreEssay}/20đ). Hãy xem lại lời giải các câu sai để đạt 100 điểm nhé!`;
+      } else {
+        trophyEl.textContent = '💪';
+        msgEl.textContent = `Cố lên ${studentLabel}! Em đạt ${stats.totalScore}/100 điểm – Xếp hạng: "${stats.rank}". Hãy đọc kỹ lời giải chi tiết từng câu ở trên và ôn lại lý thuyết để làm tốt hơn nhé!`;
+      }
+
+      sendResultToGoogleSheet(stats);
+
+      const summaryCard = document.getElementById('summary-card');
+      if (summaryCard) {
+        summaryCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function sendResultToGoogleSheet(stats) {
+      if (!GOOGLE_SCRIPT_URL || !GOOGLE_SCRIPT_URL.trim()) return;
+
+      const syncEl = document.getElementById('sheet-sync-status');
+      if (syncEl) {
+        syncEl.style.display = 'block';
+        syncEl.style.color = '#0369a1';
+        syncEl.textContent = '⏳ Đang đồng bộ bảng điểm 50 câu (100 điểm) lên Google Sheets của giáo viên...';
+      }
+
+      const keys = Object.keys(completedTasks);
+      const doneCount = keys.filter(k => completedTasks[k]).length;
+      const pct = Math.round((doneCount / keys.length) * 100);
+      const taskNames = [
+        '1.Khởi động',
+        '2.Kiến thức',
+        '3.HĐ1(6.17)',
+        '4.HĐ2(6.21)',
+        '5.HĐ3(6.19)',
+        '6.HĐ4(Ghép cặp)',
+        '7.Đề 50 câu(100đ)'
+      ];
+      const completedList = keys
+        .map((k, idx) => (completedTasks[k] ? taskNames[idx] : null))
+        .filter(Boolean)
+        .join(', ');
+
+      const payload = {
+        studentName: currentStudent.name || 'Học sinh',
+        studentClass: currentStudent.className || 'Chưa rõ',
+        scoreMCQ: stats.scoreMCQ,             // Điểm TN Nhiều lựa chọn (/20)
+        scoreTF: stats.scoreTF,               // Điểm TN Đúng/Sai (/20)
+        scoreMatch: stats.scoreMatch,         // Điểm TN Ghép cột (/20)
+        scoreShort: stats.scoreShort,         // Điểm TN Trả lời ngắn (/20)
+        totalQuizScore: stats.totalQuizScore, // Điểm tổng các loại Trắc nghiệm (/80)
+        scoreEssay: stats.scoreEssay,         // Điểm tổng Tự luận (/20)
+        totalScore: stats.totalScore,         // Điểm tổng của học sinh (/100)
+        maxScore: 100,
+        correctCount: stats.correctCount,     // Số câu đúng (/50)
+        totalQuestions: 50,
+        rank: stats.rank,                     // Xếp hạng
+        tasksDone: doneCount,
+        totalTasks: keys.length,
+        progressPct: pct,
+        taskDetails: completedList
+      };
+
+      fetch(GOOGLE_SCRIPT_URL.trim(), {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      })
+        .then(() => {
+          if (syncEl) {
+            syncEl.style.color = '#059669';
+            syncEl.textContent = '✅ Đã lưu đầy đủ thông tin học sinh, điểm từng phần Trắc nghiệm, Tự luận và Tổng điểm (100đ) lên Google Sheets!';
+          }
+        })
+        .catch(() => {
+          if (syncEl) {
+            syncEl.style.color = '#dc2626';
+            syncEl.textContent = '⚠️ Không thể kết nối máy chủ lưu điểm. Vui lòng chụp màn hình bảng kết quả này nhé!';
+          }
+        });
+    }
+
+    const currentStudent = {
+      name: '',
+      className: ''
+    };
+
+    function loginStudent(event) {
+      if (event) event.preventDefault();
+      const nameInput = document.getElementById('student-name');
+      const classInput = document.getElementById('student-class');
+      const errBox = document.getElementById('login-error');
+
+      const nameVal = nameInput.value.trim();
+      const classVal = classInput.value.trim();
+
+      if (!nameVal || !classVal) {
+        errBox.style.display = 'block';
+        playSound('error');
+        if (!nameVal) nameInput.focus();
+        else classInput.focus();
+        return;
+      }
+
+      errBox.style.display = 'none';
+      currentStudent.name = nameVal;
+      currentStudent.className = classVal;
+
+      document.getElementById('header-student-info').textContent = `👨‍🎓 ${nameVal} – Lớp ${classVal}`;
+      document.getElementById('sum-student-name').textContent = nameVal;
+      document.getElementById('sum-student-class').textContent = classVal;
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-wrapper').style.display = 'block';
+      playSound('success');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function logoutStudent() {
+      currentStudent.name = '';
+      currentStudent.className = '';
+      document.getElementById('student-name').value = '';
+      document.getElementById('student-class').value = '';
+      document.getElementById('login-error').style.display = 'none';
+
+      resetLesson();
+      document.getElementById('app-wrapper').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetLesson() {
+      Object.keys(completedTasks).forEach(k => completedTasks[k] = false);
+      warmup1Done = false;
+      warmup2Done = false;
+      Object.keys(retryCounts).forEach(k => retryCounts[k] = 0);
+      Object.keys(examUserAnswers).forEach(k => delete examUserAnswers[k]);
+      Object.keys(examQuestionScores).forEach(k => delete examQuestionScores[k]);
+      Object.keys(examQuestionGraded).forEach(k => delete examQuestionGraded[k]);
+      matchedCount = 0;
+      selectedLeft = null;
+
+      document.querySelectorAll('.table-input').forEach(inp => {
+        inp.value = '';
+        inp.className = 'table-input';
+      });
+      document.querySelectorAll('.mcq-option').forEach(btn => {
+        btn.classList.remove('selected', 'correct', 'wrong');
+      });
+      document.querySelectorAll('.match-item').forEach(item => {
+        item.classList.remove('selected', 'matched');
+      });
+      document.querySelectorAll('.feedback-box').forEach(fb => {
+        fb.className = 'feedback-box';
+        fb.innerHTML = '';
+      });
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('completed');
+      });
+
+      const slider = document.getElementById('time-slider');
+      if (slider) {
+        slider.value = 1;
+        updateCarSimulation(1);
+      }
+
+      renderExamQuestions();
+      updateLiveScoreBoard();
+      document.getElementById('live-rank-label').textContent = 'Chưa xếp hạng';
+      document.getElementById('sum-rank').textContent = 'Chưa xếp hạng';
+
+      document.getElementById('result-trophy').textContent = '🏆';
+      document.getElementById('result-score-title').textContent = 'Kết Quả Bài Kiểm Tra 50 Câu: Chưa nộp bài';
+      document.getElementById('result-message').textContent = 'Hãy chấm từng câu hỏi hoặc bấm nút "Nộp Bài Toàn Bộ 50 Câu & Lưu Điểm" ở trên để xem bảng điểm chi tiết và xếp hạng của bạn nhé!';
+      document.getElementById('game-live-badge').textContent = 'Điểm hiện tại: 0/100 đ (0/50 câu)';
+      const syncEl = document.getElementById('sheet-sync-status');
+      if (syncEl) {
+        syncEl.style.display = 'none';
+        syncEl.textContent = '';
+      }
+
+      updateProgress();
+      goToSection(0);
+    }
+
+    // Khởi tạo danh sách 50 câu hỏi ngay khi trang tải xong
+    window.addEventListener('DOMContentLoaded', () => {
+      renderExamQuestions();
+    });
+  </script>
+</body>
+</html>

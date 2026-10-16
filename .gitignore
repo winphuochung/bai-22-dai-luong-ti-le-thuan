@@ -1,0 +1,19 @@
+# Agent & AI configuration directories/files
+.agent/
+.agents/
+.gemini/
+.shared/
+agents/
+rules/
+scripts/
+skills/
+tasks/
+workflows/
+ARCHITECTURE.md
+mcp_config.json
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
